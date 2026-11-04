@@ -5,7 +5,7 @@ async function getAllYarns() {
   const { rows } = await pool.query(
     `SELECT y.*, c.weight
     FROM yarns y JOIN categories c ON c.id = y.weight_id
-    ORDER BY y.brand, y.name;`,
+    ORDER BY y.name, y.quantity;`,
   );
   return rows;
 }
@@ -55,6 +55,13 @@ async function editYarn(id, data) {
   return rowCount;
 }
 
+async function deleteYarn(id) {
+  const { rowCount } = await pool.query("DELETE FROM yarns WHERE id = $1", [
+    id,
+  ]);
+  return rowCount;
+}
+
 //CATEGORIES table
 async function getAllCategories() {
   const { rows } = await pool.query("SELECT * FROM categories");
@@ -65,5 +72,6 @@ module.exports = {
   getAllYarns,
   getYarn,
   editYarn,
+  deleteYarn,
   getAllCategories,
 };

@@ -15,17 +15,23 @@ const integerErr = "must be a whole number.";
 const decimalErr = "must be in the format x.xx";
 
 const validateYarn = [
-  body("weight").trim().isAlpha().withMessage(`Weight ${alphaErr}`),
-  body("name").trim().isAlphanumeric().withMessage(`Name ${alphaNumericErr}`),
+  body("weight")
+    .trim()
+    .isAlpha("en-US", { ignore: " " })
+    .withMessage(`Weight ${alphaErr}`),
+  body("name")
+    .trim()
+    .isAlphanumeric("en-US", { ignore: " " })
+    .withMessage(`Name ${alphaNumericErr}`),
   body("brand")
     .trim()
     .optional({ values: "falsy" })
-    .isAlphanumeric()
+    .isAlphanumeric("en-US", { ignore: " " })
     .withMessage(`Brand ${alphaNumericErr}`),
   body("color")
     .trim()
     .optional({ values: "falsy" })
-    .isAlpha()
+    .isAlpha("en-US", { ignore: " " })
     .withMessage(`Color ${alphaErr}`),
   body("shade_code")
     .trim()
@@ -63,7 +69,7 @@ const validateYarn = [
 
 exports.getYarns = async (req, res) => {
   const yarns = await db.getAllYarns();
-  res.render("yarns", { yarns });
+  res.render("getYarns", { yarns });
 };
 
 exports.searchYarns = async (req, res) => {};
@@ -101,4 +107,8 @@ exports.editYarn = [
   },
 ];
 
-exports.deleteYarn = async (req, res) => {};
+exports.deleteYarn = async (req, res) => {
+  const rowCount = await db.deleteYarn(req.params.id);
+  if (rowCount === 0) return res.status(404).send("Yarn not found");
+  res.redirect("/yarns");
+};

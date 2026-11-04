@@ -1,9 +1,10 @@
-<% if (errors.length) { %>
+<% const errs = locals.errors || []; %>
+<% if (errs.length) { %>
   <ul>
-    <% errors.forEach((e) => { %>
+    <% errs.forEach((e) => { %>
       <li><%= e.msg %></li>
     <% }); %>
   </ul>
 <% } %>
 
-<%- include("partials/form.ejs") %>
+<%- include("partials/form.ejs", {yarn, categories}) %>
