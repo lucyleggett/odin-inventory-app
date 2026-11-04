@@ -1,0 +1,10 @@
+<% const errs = locals.errors || []; %>
+<% if (errs.length) { %>
+  <ul>
+    <% errs.forEach((e) => { %>
+      <li><%= e.msg %></li>
+    <% }); %>
+  </ul>
+<% } %>
+
+<%- include("partials/categoriesForm.ejs", { category }) %>

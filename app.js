@@ -16,6 +16,9 @@ const express = require("express");
 const path = require("node:path");
 const app = express();
 
+const { formatRange } = require("./utils/formatUtils");
+app.locals.formatRange = formatRange;
+
 const indexRouter = require("./routes/indexRouter");
 const categoriesRouter = require("./routes/categoriesRouter");
 const yarnsRouter = require("./routes/yarnsRouter");

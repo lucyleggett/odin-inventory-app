@@ -76,10 +76,26 @@ async function getAllCategories() {
   return rows;
 }
 
+async function getCategory(id) {
+  const { rows } = await pool.query(
+    `SELECT id, weight, alt_names,
+       lower(ply) AS ply_min,
+       upper(ply) - 1 AS ply_max,
+       lower(needle_size) AS needle_min, upper(needle_size) AS needle_max,
+       lower(hook_size)   AS hook_min,   upper(hook_size)   AS hook_max,
+       lower(gauge)       AS gauge_min,  upper(gauge) - 1    AS gauge_max
+    FROM categories
+     WHERE id = $1`,
+    [id],
+  );
+  return rows[0];
+}
+
 module.exports = {
   getAllYarns,
   getYarn,
   editYarn,
   deleteYarn,
   getAllCategories,
+  getCategory,
 };

@@ -1,0 +1,71 @@
+<form action="/categories/<%= category.id %>/edit" method="POST">
+  <div class="couple">
+    <label for="category_id">id</label>
+    <input
+      name="category_id"
+      type="number"
+      id="category_id"
+      value="<%= category.id %>"
+      readonly
+    />
+  </div>
+
+  <div class="couple">
+    <label for="alt_names">alternative names</label>
+    <input
+      alt_names="alt_names"
+      type="text"
+      id="alt_names"
+      value="<%= category.alt_names %>"
+    />
+  </div>
+
+  <div class="couple">
+    <label for="ply">ply</label>
+    <input
+      name="ply"
+      type="text"
+      id="ply"
+      value="<%= formatRange(category.ply_min, category.ply_max) %>"
+      required
+    />
+  </div>
+
+  <div class="couple">
+    <label for="needle_size">needle size</label>
+    <input
+      name="needle_size"
+      type="text"
+      id="needle_size"
+      pattern="\d+-\d+"
+      title="Please enter a range in the format: number-number (e.g., 10-20)"
+      value="<%= formatRange(category.needle_min, category.needle_max) %>"
+    />
+  </div>
+
+  <div class="couple">
+    <label for="hook_size">hook size</label>
+    <input
+      name="hook_size"
+      type="text"
+      id="hook_size"
+      pattern="\d+-\d+"
+      title="Please enter a range in the format: number-number (e.g., 10-20)"
+      value="<%= formatRange(category.hook_min, category.hook_max) %>"
+    />
+  </div>
+
+  <div class="couple">
+    <label for="gauge">gauge</label>
+    <input
+      name="gauge"
+      type="text"
+      id="gauge"
+      pattern="\d+-\d+"
+      title="Please enter a range in the format: number-number (e.g., 10-20)"
+      value="<%= formatRange(category.gauge_min, category.gauge_max) %>"
+    />
+  </div>
+
+  <button type="submit">Submit</button>
+</form>

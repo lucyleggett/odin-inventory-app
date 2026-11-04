@@ -6,6 +6,7 @@ categoriesRouter.get("/", categoriesController.getCategories);
 categoriesRouter.get("/search", categoriesController.searchCategories);
 categoriesRouter.post("/add", categoriesController.addCategory);
 categoriesRouter.post("/:id/delete", categoriesController.deleteCategory);
+categoriesRouter.get("/:id/edit", categoriesController.getEditCategory);
 categoriesRouter.post("/:id/edit", categoriesController.editCategory);
 
 module.exports = categoriesRouter;

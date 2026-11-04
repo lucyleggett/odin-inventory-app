@@ -1,70 +1,58 @@
-const {
-  param,
-  body,
-  validationResult,
-  matchedData,
-} = require("express-validator");
+const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/queries");
-
-const validateId = param("id").isInt({ min: 1 }).toInt();
-
-const alphaErr = "must only contain letters.";
-const alphaNumericErr = "must only contain letters and numbers.";
-const numericErr = "must only contain numbers.";
-const integerErr = "must be a whole number.";
-const decimalErr = "must be in the format x.xx";
+const { validateId, errMsgs } = require("../utils/validationUtils");
 
 const validateYarn = [
   body("weight")
     .trim()
     .isAlpha("en-US", { ignore: " " })
-    .withMessage(`Weight ${alphaErr}`),
+    .withMessage(`Weight ${errMsgs.alphaErr}`),
   body("name")
     .trim()
     .isAlphanumeric("en-US", { ignore: " " })
-    .withMessage(`Name ${alphaNumericErr}`),
+    .withMessage(`Name ${errMsgs.alphaNumericErr}`),
   body("brand")
     .trim()
     .optional({ values: "falsy" })
     .isAlphanumeric("en-US", { ignore: " " })
-    .withMessage(`Brand ${alphaNumericErr}`),
+    .withMessage(`Brand ${errMsgs.alphaNumericErr}`),
   body("color")
     .trim()
     .optional({ values: "falsy" })
     .isAlpha("en-US", { ignore: " " })
-    .withMessage(`Color ${alphaErr}`),
+    .withMessage(`Color ${errMsgs.alphaErr}`),
   body("shade_code")
     .trim()
     .optional({ values: "falsy" })
     .isNumeric()
-    .withMessage(`Shade code ${numericErr}`),
+    .withMessage(`Shade code ${errMsgs.numericErr}`),
   body("dye_lot").trim().optional({ values: "falsy" }),
   body("quantity")
     .trim()
     .optional({ values: "falsy" })
     .isInt()
-    .withMessage(`Quantity ${integerErr}`),
+    .withMessage(`Quantity ${errMsgs.integerErr}`),
   body("materials").trim().optional({ values: "falsy" }),
   body("net_weight")
     .trim()
     .optional({ values: "falsy" })
     .isInt()
-    .withMessage(`Net weight ${integerErr}`),
+    .withMessage(`Net weight ${errMsgs.integerErr}`),
   body("length_meters")
     .trim()
     .optional({ values: "falsy" })
     .isInt()
-    .withMessage(`Length ${integerErr}`),
+    .withMessage(`Length ${errMsgs.integerErr}`),
   body("rec_needle")
     .trim()
     .optional({ values: "falsy" })
     .isDecimal()
-    .withMessage(`Needle size ${decimalErr}`),
+    .withMessage(`Needle size ${errMsgs.decimalErr}`),
   body("rec_hook")
     .trim()
     .optional({ values: "falsy" })
     .isDecimal()
-    .withMessage(`Hook size ${decimalErr}`),
+    .withMessage(`Hook size ${errMsgs.decimalErr}`),
 ];
 
 exports.getYarns = async (req, res) => {
