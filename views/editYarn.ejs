@@ -1,0 +1,9 @@
+<% if (errors.length) { %>
+  <ul>
+    <% errors.forEach((e) => { %>
+      <li><%= e.msg %></li>
+    <% }); %>
+  </ul>
+<% } %>
+
+<%- include("partials/form.ejs") %>

@@ -7,6 +7,6 @@ exports.searchCategories = async (req, res) => {};
 
 exports.addCategory = async (req, res) => {};
 
-exports.updateCategory = async (req, res) => {};
+exports.editCategory = async (req, res) => {};
 
 exports.deleteCategory = async (req, res) => {};
