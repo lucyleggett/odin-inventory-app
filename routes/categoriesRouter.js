@@ -5,7 +5,7 @@ const categoriesRouter = Router();
 categoriesRouter.get("/", categoriesController.getCategories);
 categoriesRouter.get("/search", categoriesController.searchCategories);
 categoriesRouter.post("/add", categoriesController.addCategory);
-categoriesRouter.post("/delete", categoriesController.deleteCategory);
-categoriesRouter.post("/update", categoriesController.updateCategory);
+categoriesRouter.post("/:id/delete", categoriesController.deleteCategory);
+categoriesRouter.post("/:id/edit", categoriesController.editCategory);
 
 module.exports = categoriesRouter;

@@ -5,7 +5,7 @@ const yarnsRouter = Router();
 yarnsRouter.get("/", yarnsController.getYarns);
 yarnsRouter.get("/search", yarnsController.searchYarns);
 yarnsRouter.post("/add", yarnsController.addYarn);
-yarnsRouter.post("/delete", yarnsController.deleteYarn);
-yarnsRouter.post("/update", yarnsController.updateYarn);
+yarnsRouter.post("/:id/delete", yarnsController.deleteYarn);
+yarnsRouter.post("/:id/edit", yarnsController.editYarn);
 
 module.exports = yarnsRouter;

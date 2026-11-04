@@ -1,7 +1,10 @@
 const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/queries");
 
-exports.getYarns = async (req, res) => {};
+exports.getYarns = async (req, res) => {
+  const yarns = await db.getAllYarns();
+  res.render("yarns", { yarns });
+};
 
 exports.searchYarns = async (req, res) => {};
 

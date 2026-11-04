@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Brand</th><th>Color</th><th>Shade</th><th>Weight</th>
+      <th>Qty</th><th>Material(s)</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% yarns.forEach((y) => { %>
+      <tr>
+        <td><%= y.name %></td>
+        <td><%= y.brand %></td>
+        <td><%= y.color %></td>
+        <td><%= y.shade_code %></td>
+        <td><%= y.weight %></td>
+        <td><%= y.quantity %></td>
+        <td><%= (y.materials || []).join(", ") %></td>
+        <td><a href="/yarns/<%= y.id %>/edit">Edit</a></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
