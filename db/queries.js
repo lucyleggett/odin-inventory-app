@@ -64,7 +64,15 @@ async function deleteYarn(id) {
 
 //CATEGORIES table
 async function getAllCategories() {
-  const { rows } = await pool.query("SELECT * FROM categories");
+  const { rows } = await pool.query(`
+    SELECT id, weight, alt_names,
+       lower(ply) AS ply_min,
+       upper(ply) - 1 AS ply_max,
+       lower(needle_size) AS needle_min, upper(needle_size) AS needle_max,
+       lower(hook_size)   AS hook_min,   upper(hook_size)   AS hook_max,
+       lower(gauge)       AS gauge_min,  upper(gauge) - 1    AS gauge_max
+    FROM categories
+    ORDER BY ply_min;`);
   return rows;
 }
 

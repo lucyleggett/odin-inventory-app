@@ -1,0 +1,38 @@
+<% function formatRange(min, max) {
+  if (min == null) return "N/A";
+  if (max == null) return `${min}+`;
+
+  return min === max ? `${min}` : `${min} - ${max}`;
+} %>
+
+<% if (categories.length === 0) { %>
+  <p>No results found</p>
+<% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>weight</th><th>alternative names</th><th>ply</th><th>needle size</th><th>hook size</th><th>gauge (over 10cm)</th></th><th></th><th>
+      </tr>
+    </thead>
+    <tbody>
+      <% categories.forEach((c) => { %>
+        <tr>
+          <td><%= c.weight %></td>
+          <td><ul><% (c.alt_names || []).forEach((name) => { %>
+            <li><%= name %></li>
+          <% }); %></ul></td>
+          <td><%= formatRange(c.ply_min, c.ply_max) %></td>
+          <td><%= `${formatRange(c.needle_min, c.needle_max)}mm` %></td>
+          <td><%= `${formatRange(c.hook_min, c.hook_max)}mm` %></td>
+          <td><%= `${formatRange(c.gauge_min, c.gauge_max)} stitches` %></td>
+          <td><form method="GET" action="/categories/<%= c.id %>/edit">
+            <button type="submit">Edit</button>
+          </form></td>
+          <td><form method="POST" action="/categories/<%= c.id %>/delete">
+            <button type="submit">Delete</button>
+          </form></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
