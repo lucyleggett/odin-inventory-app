@@ -1,22 +1,21 @@
 <form action="/categories/<%= category.id %>/edit" method="POST">
   <div class="couple">
-    <label for="category_id">id</label>
+    <label for="weight">weight</label>
     <input
-      name="category_id"
-      type="number"
-      id="category_id"
-      value="<%= category.id %>"
-      readonly
+      name="weight"
+      type="text"
+      id="weight"
+      value="<%= category.weight %>"
     />
   </div>
-
+  
   <div class="couple">
     <label for="alt_names">alternative names</label>
     <input
-      alt_names="alt_names"
+      name="alt_names"
       type="text"
       id="alt_names"
-      value="<%= category.alt_names %>"
+      value="<%= Array.isArray(category.alt_names) ? category.alt_names.join(', ') : (category.alt_names || '') %>"
     />
   </div>
 
@@ -37,8 +36,6 @@
       name="needle_size"
       type="text"
       id="needle_size"
-      pattern="\d+-\d+"
-      title="Please enter a range in the format: number-number (e.g., 10-20)"
       value="<%= formatRange(category.needle_min, category.needle_max) %>"
     />
   </div>
@@ -49,8 +46,6 @@
       name="hook_size"
       type="text"
       id="hook_size"
-      pattern="\d+-\d+"
-      title="Please enter a range in the format: number-number (e.g., 10-20)"
       value="<%= formatRange(category.hook_min, category.hook_max) %>"
     />
   </div>
@@ -61,8 +56,6 @@
       name="gauge"
       type="text"
       id="gauge"
-      pattern="\d+-\d+"
-      title="Please enter a range in the format: number-number (e.g., 10-20)"
       value="<%= formatRange(category.gauge_min, category.gauge_max) %>"
     />
   </div>

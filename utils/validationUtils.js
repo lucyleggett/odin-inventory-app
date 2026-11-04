@@ -9,7 +9,7 @@ const errMsgs = {
   integerErr: "must be a whole number.",
   decimalErr: "must be in the format x.xx",
   intRangeErr: "must be in the format 'x - x' or 'xx - xx' (e.g., 10 - 20)",
-  numRangeErr: "must be in the format 'xx.xx - xx.xx' (e.g., 2.25 - 3.5)",
+  numRangeErr: "must be in the format 'x.xx - x.xx' or 'xx.xx - xx.xx' (e.g., 2.25 - 3.5)",
 };
 
 module.exports = { validateId, errMsgs };

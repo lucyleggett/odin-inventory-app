@@ -1,16 +1,5 @@
 <form action="/yarns/<%= yarn.id %>/edit" method="POST">
   <div class="couple">
-    <label for="yarn_id">id</label>
-    <input
-      name="yarn_id"
-      type="number"
-      id="yarn_id"
-      value="<%= yarn.id %>"
-      readonly
-    />
-  </div>
-
-  <div class="couple">
     <label for="weight">weight</label>
     <select name="weight" id="weight" selected="<%= yarn.weight %>" required>
       <option value="lace">lace (1-2 ply)</option>

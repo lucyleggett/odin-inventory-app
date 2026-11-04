@@ -26,11 +26,11 @@ const validateCategory = [
     .withMessage(errMsgs.intRangeErr),
   body("needle_size")
     .trim()
-    .matches(/^\d{1,2}\.\d{2}\s*-\s*\d{1,2}\.\d{2}$/)
+    .matches(/^\d{1,2}(\.\d{1,2})?(\s*-\s*\d{1,2}(\.\d{1,2})?)?$/)
     .withMessage(errMsgs.numRangeErr),
   body("hook_size")
     .trim()
-    .matches(/^\d{1,2}\.\d{2}\s*-\s*\d{1,2}\.\d{2}$/)
+    .matches(/^\d{1,2}(\.\d{1,2})?(\s*-\s*\d{1,2}(\.\d{1,2})?)?$/)
     .withMessage(errMsgs.numRangeErr),
   body("gauge")
     .trim()
