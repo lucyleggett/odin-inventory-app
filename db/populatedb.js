@@ -5,22 +5,26 @@ CREATE TABLE IF NOT EXISTS categories (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   weight TEXT NOT NULL UNIQUE,
   alt_names TEXT[],
-  ply INT4RANGE,
-  needle_size NUMRANGE,
-  hook_size NUMRANGE,
-  gauge INT4RANGE
+  ply_lower INT,
+  ply_upper INT,
+  needle_lower FLOAT,
+  needle_upper FLOAT,
+  hook_lower FLOAT,
+  hook_upper FLOAT,
+  gauge_lower INT,
+  gauge_upper INT
 );
 
-INSERT INTO categories (weight, alt_names, ply, needle_size, hook_size, gauge)
+INSERT INTO categories (weight, alt_names, ply_lower, ply_upper, needle_lower, needle_upper, hook_lower, hook_upper, gauge_lower, gauge_upper)
 VALUES
-  ('lace', ARRAY['thread', 'cobweb'], int4range(1, 2, '[]'), numrange(1.5, 2.5, '[]'), numrange(2.25, 2.25, '[]'), int4range(33, 40, '[]')),
-  ('fingering', ARRAY['super fine', 'sock', 'baby'], int4range(4, 4, '[]'), numrange(2.25, 3.25, '[]'), numrange(2.25, 3.5, '[]'), int4range(27, 32, '[]')),
-  ('sport', ARRAY['fine', 'baby'], int4range(5, 5, '[]'), numrange(3.25, 3.75, '[]'), numrange(3.5, 4.5, '[]'), int4range(23, 26, '[]')),
-  ('double knit', ARRAY['light worsted', 'dk'], int4range(8, 8, '[]'), numrange(3.75, 4.5, '[]'), numrange(4.5, 5.5, '[]'), int4range(21, 24, '[]')),
-  ('aran', ARRAY['afghan', 'worsted'], int4range(10, 10, '[]'), numrange(4.5, 5.5, '[]'), numrange(5.5, 6.5, '[]'), int4range(16, 20, '[]')),
-  ('chunky', ARRAY['bulky', 'craft', 'rug'], int4range(12, 14, '[]'), numrange(5.5, 8, '[]'), numrange(6.5, 9, '[]'), int4range(12, 15, '[]')),
-  ('roving', ARRAY['super bulky'], int4range(16, 16, '[]'), numrange(8, 12.75, '[]'), numrange(9, 15, '[]'), int4range(7, 11, '[]')),
-  ('jumbo', ARRAY[]::text[], int4range(20, NULL, '[)'), numrange(12.75, NULL), numrange(15, NULL), int4range(6, NULL))
+  ('lace', ARRAY['thread', 'cobweb'], 1, 2, 1.5, 2.5, 2.25, 2.25, 33, 40),
+  ('fingering', ARRAY['super fine', 'sock', 'baby'], 4, 4, 2.25, 3.25, 2.25, 3.5, 27, 32),
+  ('sport', ARRAY['fine', 'baby'], 5, 5, 3.25, 3.75, 3.5, 4.5, 23, 26),
+  ('double knit', ARRAY['light worsted', 'dk'], 8, 8, 3.75, 4.5, 4.5, 5.5, 21, 24),
+  ('aran', ARRAY['afghan', 'worsted'], 10, 10, 4.5, 5.5, 5.5, 6.5, 16, 20),
+  ('chunky', ARRAY['bulky', 'craft', 'rug'], 12, 14, 5.5, 8, 6.5, 9, 12, 15),
+  ('roving', ARRAY['super bulky'], 16, 16, 8, 12.75, 9, 15, 7, 11),
+  ('jumbo', ARRAY[]::text[], 20, NULL, 12.75, NULL, 15, NULL, 6, NULL)
 ON CONFLICT (weight) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS yarns (

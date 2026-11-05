@@ -5,4 +5,6 @@ function formatRange(min, max) {
   return min === max ? `${min}` : `${min} - ${max}`;
 }
 
-module.exports = { formatRange };
+module.exports = {
+  formatRange,
+};

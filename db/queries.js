@@ -1,3 +1,4 @@
+const { splitCommaList } = require("../utils/formatUtils");
 const pool = require("./pool");
 
 //YARNS table
@@ -22,10 +23,7 @@ async function getYarn(id) {
 }
 
 async function editYarn(id, data) {
-  const materials = (data.materials || "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const materials = removeCommas(data.materials || "");
 
   const { rowCount } = await pool.query(
     `UPDATE yarns
@@ -66,29 +64,51 @@ async function deleteYarn(id) {
 async function getAllCategories() {
   const { rows } = await pool.query(`
     SELECT id, weight, alt_names,
-       lower(ply) AS ply_min,
-       upper(ply) - 1 AS ply_max,
-       lower(needle_size) AS needle_min, upper(needle_size) AS needle_max,
-       lower(hook_size)   AS hook_min,   upper(hook_size)   AS hook_max,
-       lower(gauge)       AS gauge_min,  upper(gauge) - 1    AS gauge_max
+       ply_lower, ply_upper, needle_lower, needle_upper,
+       hook_lower, hook_upper, gauge_lower, gauge_upper
     FROM categories
-    ORDER BY ply_min;`);
+    ORDER BY ply_lower;`);
   return rows;
 }
 
 async function getCategory(id) {
   const { rows } = await pool.query(
     `SELECT id, weight, alt_names,
-       lower(ply) AS ply_min,
-       upper(ply) - 1 AS ply_max,
-       lower(needle_size) AS needle_min, upper(needle_size) AS needle_max,
-       lower(hook_size)   AS hook_min,   upper(hook_size)   AS hook_max,
-       lower(gauge)       AS gauge_min,  upper(gauge) - 1    AS gauge_max
+       ply_lower, ply_upper, needle_lower, needle_upper,
+       hook_lower, hook_upper, gauge_lower, gauge_upper
     FROM categories
      WHERE id = $1`,
     [id],
   );
   return rows[0];
+}
+
+async function editCategory(id, data) {
+  const { rowCount } = await pool.query(
+    `UPDATE categories
+    SET 
+    weight = $1, alt_names = $2, ply_lower = $3,
+    ply_upper = $4, needle_lower = $5, needle_upper = $6,
+    hook_lower = $7, hook_upper = $8, gauge_lower = $9, 
+    gauge_upper = $10
+
+    WHERE id=$11`,
+    [
+      data.weight,
+      data.alt_names,
+      data.ply_lower,
+      data.ply_upper,
+      data.needle_lower,
+      data.needle_upper,
+      data.hook_lower,
+      data.hook_upper,
+      data.gauge_lower,
+      data.gauge_upper,
+      id,
+    ],
+  );
+
+  return rowCount;
 }
 
 module.exports = {
@@ -98,4 +118,5 @@ module.exports = {
   deleteYarn,
   getAllCategories,
   getCategory,
+  editCategory,
 };

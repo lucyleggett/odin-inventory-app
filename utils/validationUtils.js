@@ -8,8 +8,10 @@ const errMsgs = {
   numericErr: "must only contain numbers.",
   integerErr: "must be a whole number.",
   decimalErr: "must be in the format x.xx",
-  intRangeErr: "must be in the format 'x - x' or 'xx - xx' (e.g., 10 - 20)",
-  numRangeErr: "must be in the format 'x.xx - x.xx' or 'xx.xx - xx.xx' (e.g., 2.25 - 3.5)",
+  intErr: "must be a whole number greater than zero.",
+  floatErr: "must be a positive number with up to 2 decimal places.",
+  upperBoundErr: "must be a number greater than its lower bound.",
+  missingLowerBoundErr: "range must have a lower bound."
 };
 
 module.exports = { validateId, errMsgs };

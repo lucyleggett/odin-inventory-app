@@ -14,10 +14,22 @@
           <td><ul><% (c.alt_names || []).forEach((name) => { %>
             <li><%= name %></li>
           <% }); %></ul></td>
-          <td><%= formatRange(c.ply_min, c.ply_max) %></td>
-          <td><%= `${formatRange(c.needle_min, c.needle_max)}mm` %></td>
-          <td><%= `${formatRange(c.hook_min, c.hook_max)}mm` %></td>
-          <td><%= `${formatRange(c.gauge_min, c.gauge_max)} stitches` %></td>
+          <td><% if (formatRange(c.ply_lower, c.ply_upper) !== "N/A") { %>
+                <%= `${formatRange(c.ply_lower, c.ply_upper)}` %>
+              <% } %>
+          </td>          
+          <td><% if (formatRange(c.needle_lower, c.needle_upper) !== "N/A") { %>
+                <%= `${formatRange(c.needle_lower, c.needle_upper)}mm` %>
+              <% } %>
+          </td>          
+          <td><% if (formatRange(c.hook_lower, c.hook_upper) !== "N/A") { %>
+                <%= `${formatRange(c.hook_lower, c.hook_upper)}mm` %>
+              <% } %>
+          </td>          
+          <td><% if (formatRange(c.gauge_lower, c.gauge_upper) !== "N/A") { %>
+                <%= `${formatRange(c.gauge_lower, c.gauge_upper)} stitches` %>
+              <% } %>
+          </td>
           <td><form method="GET" action="/categories/<%= c.id %>/edit">
             <button type="submit">Edit</button>
           </form></td>
