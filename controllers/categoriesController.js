@@ -11,6 +11,7 @@ exports.getEditCategory = async (req, res) => {
   const category = await db.getCategory(req.params.id);
   if (!category) return res.status(404).send("Category not found");
   res.render("addEditCategory", {
+    title: "Edit category",
     errors: [],
     category,
     action: `/categories/${req.params.id}/edit`,
@@ -103,6 +104,7 @@ exports.editCategory = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).render("addEditCategory", {
+        title: "Edit category",
         errors: errors.array(),
         category: { ...req.body, id: req.params.id },
         action: `/categories/${req.params.id}/edit`,
@@ -127,6 +129,7 @@ exports.searchCategories = async (req, res) => {};
 
 exports.getAddCategory = async (req, res) => {
   res.render("addEditCategory", {
+    title: "Add category",
     errors: [],
     category: {},
     action: "/categories/add",
@@ -140,6 +143,7 @@ exports.addCategory = [
     try {
       const render = (status, errors) =>
         res.status(status).render("addEditCategory", {
+          title: "Add category",
           errors,
           category: { ...req.body },
           action: "/categories/add",

@@ -62,6 +62,7 @@ exports.getYarns = async (req, res) => {
 
 exports.getAddYarn = async (req, res) => {
   res.render("addEditYarn", {
+    title: "Add yarn",
     errors: [],
     yarn: {},
     categories: {},
@@ -78,6 +79,7 @@ exports.addYarn = [
 
       const render = (status, errors) =>
         res.status(status).render("addEditYarn", {
+          title: "Add yarn",
           errors,
           yarn: { ...req.body },
           categories,
@@ -125,6 +127,7 @@ exports.getEditYarn = async (req, res) => {
   if (!yarn) return res.status(404).send("Yarn not found");
   const categories = await db.getAllCategories();
   res.render("addEditYarn", {
+    title: "Edit yarn",
     errors: [],
     yarn,
     categories,
@@ -143,6 +146,7 @@ exports.editYarn = [
     if (!errors.isEmpty()) {
       const categories = await db.getAllCategories();
       return res.status(400).render("addEditYarn", {
+        title: "Edit yarn",
         errors: errors.array(),
         yarn: { ...req.body, id },
         categories,

@@ -16,8 +16,14 @@ const express = require("express");
 const path = require("node:path");
 const app = express();
 
-const { formatRange } = require("./utils/formatUtils");
+const {
+  formatRange,
+  toSentenceCase,
+  toTitleCase,
+} = require("./utils/formatUtils");
 app.locals.formatRange = formatRange;
+app.locals.toSentenceCase = toSentenceCase;
+app.locals.toTitleCase = toTitleCase;
 
 const indexRouter = require("./routes/indexRouter");
 const categoriesRouter = require("./routes/categoriesRouter");
@@ -26,6 +32,7 @@ const yarnsRouter = require("./routes/yarnsRouter");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 app.use("/categories", categoriesRouter);
