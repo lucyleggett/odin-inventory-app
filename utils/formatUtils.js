@@ -2,7 +2,7 @@ function formatRange(min, max) {
   if (min == null) return "N/A";
   if (max == null) return `${min}+`;
 
-  return min === max ? `${min}` : `${min} - ${max}`;
+  return min === max ? `${min}` : `${min}–${max}`;
 }
 
 function toSentenceCase(string) {

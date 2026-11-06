@@ -1,9 +1,11 @@
 :root {
   --clr-primary: #e6a0f3;
   --clr-secondary: #8ac752;
-  --clr-tertiary: #eb82c0;
+  --clr-tertiary: #ea62b1;
   --clr-dark: #5c5b8b;
   --clr-bg: #ddefd7;
+  --clr-bg-hover: #a2bb9a;
+  --clr-border: #7d8a79;
 
   --clr-text-dark: black;
   --clr-text-light: white;
@@ -68,6 +70,10 @@ select {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 p,
 h1,
 h2,
@@ -83,20 +89,25 @@ p {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   font-family: var(--ff-body);
   font-size: var(--fs-body);
   background-color: var(--clr-bg);
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1em;
 }
 
 nav {
   display: flex;
   justify-content: flex-end;
-  width: 20%;
+  width: 100%;
   align-self: flex-end;
+  background-color: var(--clr-dark);
 }
 
 nav > ul {
@@ -104,7 +115,77 @@ nav > ul {
   justify-content: space-between;
   gap: 20px;
   list-style-type: none;
-  width: 100%;
-  padding: 0;
+  width: fit-content;
+  padding: 15px 25px;
   margin: 0;
+}
+
+nav > ul a {
+  text-decoration: none;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 16px;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+nav > ul a:hover {
+  color: var(--clr-secondary);
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: fit-content;
+}
+
+th {
+  text-wrap: balance;
+  max-width: 150px;
+}
+
+th,
+td {
+  padding: 0.25em 0.5em;
+}
+
+tr {
+  border: none;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+tr:nth-child(even) {
+  background-color: color-mix(
+    in srgb,
+    var(--clr-bg-hover) 30%,
+    transparent 70%
+  );
+}
+
+td {
+}
+
+table ul {
+  padding-left: 20px;
+  list-style-type:;
+}
+
+table ul > li::marker {
+  font-size: 0.5rem;
+}
+
+table button {
+  background-color: transparent;
+  border: none;
+}
+
+.container > form button {
+  padding: 0.4em 0.8em;
+  border-radius: 9999px;
+  border: none;
+  color: var(--clr-tertiary);
+  font-weight: 700;
+  margin: 1em;
+  background-color: transparent;
+  align-self: flex-start;
 }
