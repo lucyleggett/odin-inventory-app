@@ -134,6 +134,15 @@ async function addCategory(data) {
   return newId;
 }
 
+async function deleteCategory(id) {
+  const { rowCount } = await pool.query(
+    `DELETE FROM categories
+        WHERE id = $1`,
+    [id],
+  );
+  return rowCount;
+}
+
 module.exports = {
   getAllYarns,
   getYarn,
@@ -143,4 +152,5 @@ module.exports = {
   getCategory,
   editCategory,
   addCategory,
+  deleteCategory,
 };

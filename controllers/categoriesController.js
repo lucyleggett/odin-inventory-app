@@ -160,4 +160,55 @@ exports.addCategory = [
   },
 ];
 
-exports.deleteCategory = async (req, res) => {};
+const DELETE_ERRORS = {
+  "23001": {
+    status: 409,
+    message:
+      "This category is still being used by one or more yarns. Please reassign or delete them first.",
+  },
+  "23503": {
+    status: 409,
+    message:
+      "This category is still being used by one or more yarns. Please reassign or delete them first.",
+  },
+  "22P02": {
+    status: 400,
+    message: "Category id isn't valid.",
+  },
+};
+
+exports.deleteCategory = [
+  validateId,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("error", {
+        message: errors.array()[0].msg,
+      });
+    }
+
+    const { id } = matchedData(req);
+
+    try {
+      const rowCount = await db.deleteCategory(id);
+      if (rowCount === 0) {
+        return res.status(404).render("error", {
+          message: "Category not found. It may have already been deleted.",
+        });
+      }
+      res.redirect("/categories");
+    } catch (err) {
+      const known = DELETE_ERRORS[err.code];
+      if (known) {
+        return res.status(known.status).render("error", {
+          message: known.message,
+        });
+      }
+      console.error(err);
+      res.status(500).render("error", {
+        message:
+          "Something went wrong while deleting the category. Please try again.",
+      });
+    }
+  },
+];
