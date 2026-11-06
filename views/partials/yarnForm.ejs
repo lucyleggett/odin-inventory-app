@@ -1,7 +1,7 @@
-<form action="/yarns/<%= yarn.id %>/edit" method="POST">
+<form action="<%= action %>" method="POST">
   <div class="couple">
     <label for="weight">weight</label>
-    <select name="weight" id="weight" selected="<%= yarn.weight %>" required>
+    <select name="weight" id="weight" selected="<%= yarn.weight || "" %>" required>
       <option value="lace">lace (1-2 ply)</option>
       <option value="fingering">fingering (4 ply)</option>
       <option value="sport">sport (5 ply)</option>
@@ -19,19 +19,19 @@
       name="name"
       type="text"
       id="name"
-      value="<%= yarn.name %>"
+      value="<%= yarn.name || "" %>"
       required
     />
   </div>
 
   <div class="couple">
     <label for="brand">brand</label>
-    <input name="brand" type="text" id="brand" value="<%= yarn.brand %>" />
+    <input name="brand" type="text" id="brand" value="<%= yarn.brand || "" %>" />
   </div>
 
   <div class="couple">
     <label for="color">color</label>
-    <input name="color" type="text" id="color" value="<%= yarn.color %>" />
+    <input name="color" type="text" id="color" value="<%= yarn.color || "" %>" />
   </div>
 
   <div class="couple">
@@ -40,7 +40,7 @@
       name="shade_code"
       type="number"
       id="shade_code"
-      value="<%= yarn.shade_code %>"
+      value="<%= yarn.shade_code || "" %>"
     />
   </div>
 
@@ -50,7 +50,7 @@
       name="dye_lot"
       type="number"
       id="dye_lot"
-      value="<%= yarn.dye_lot %>"
+      value="<%= yarn.dye_lot || "" %>"
     />
   </div>
 
@@ -60,7 +60,7 @@
       name="quantity"
       type="number"
       id="quantity"
-      value="<%= yarn.quantity %>"
+      value="<%= yarn.quantity || "" %>"
     />
   </div>
 
@@ -80,7 +80,7 @@
       name="net_weight"
       type="number"
       id="net_weight"
-      value="<%= yarn.net_weight %>"
+      value="<%= yarn.net_weight || "" %>"
     />
   </div>
 
@@ -90,7 +90,7 @@
       name="length_meters"
       type="number"
       id="length_meters"
-      value="<%= yarn.length_meters %>"
+      value="<%= yarn.length_meters || "" %>"
     />
   </div>
 
@@ -100,7 +100,7 @@
       name="rec_needle"
       type="number"
       id="rec_needle"
-      value="<%= yarn.rec_needle %>"
+      value="<%= yarn.rec_needle || "" %>"
     />
   </div>
 
@@ -110,9 +110,9 @@
       name="rec_hook"
       type="number"
       id="rec_hook"
-      value="<%= yarn.rec_hook %>"
+      value="<%= yarn.rec_hook || "" %>"
     />
   </div>
 
-  <button type="submit">Submit</button>
+  <button type="submit"><%= submitLabel %></button>
 </form>

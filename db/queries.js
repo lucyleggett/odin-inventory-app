@@ -22,7 +22,12 @@ async function getYarn(id) {
 }
 
 async function editYarn(id, data) {
-  const materials = removeCommas(data.materials || "");
+  const materials = data.materials
+    ? data.materials
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : null;
 
   const { rowCount } = await pool.query(
     `UPDATE yarns
@@ -57,6 +62,49 @@ async function deleteYarn(id) {
     id,
   ]);
   return rowCount;
+}
+
+async function addYarn(data) {
+  const materials = data.materials
+    ? data.materials
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : null;
+
+  const { rows } = await pool.query(
+    `INSERT INTO yarns (
+       weight_id, name, brand, color, dye_lot, shade_code, quantity,
+       materials, net_weight, length_meters, rec_needle, rec_hook
+     )
+     SELECT
+       id, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+     FROM categories
+     WHERE LOWER(weight) = LOWER($1)
+     RETURNING id`,
+    [
+      data.weight,
+      data.name,
+      data.brand || null,
+      data.color || null,
+      data.dye_lot || null,
+      data.shade_code || null,
+      data.quantity ?? null,
+      materials,
+      data.net_weight ?? null,
+      data.length_meters ?? null,
+      data.rec_needle ?? null,
+      data.rec_hook ?? null,
+    ],
+  );
+
+  if (rows.length === 0) {
+    const err = new Error(`No category found for weight "${data.weight}"`);
+    err.code = "NO_CATEGORY";
+    throw err;
+  }
+
+  return rows[0].id;
 }
 
 //CATEGORIES table
@@ -111,10 +159,12 @@ async function editCategory(id, data) {
 }
 
 async function addCategory(data) {
-  const newId = await pool.query(
-    `INSERT INTO categories (weight, alt_names, 
-    ply_lower, ply_upper, needle_lower, needle_upper, 
-    hook_lower, hook_upper, gauge_lower, gauge_upper)
+  const { rows } = await pool.query(
+    `INSERT INTO categories (
+    weight, alt_names, ply_lower, ply_upper, needle_lower, 
+    needle_upper, hook_lower, hook_upper, gauge_lower, 
+    gauge_upper
+    )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING id`,
     [
@@ -131,7 +181,7 @@ async function addCategory(data) {
     ],
   );
 
-  return newId;
+  return rows[0].id;
 }
 
 async function deleteCategory(id) {
@@ -148,6 +198,7 @@ module.exports = {
   getYarn,
   editYarn,
   deleteYarn,
+  addYarn,
   getAllCategories,
   getCategory,
   editCategory,

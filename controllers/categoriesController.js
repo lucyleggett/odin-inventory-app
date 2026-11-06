@@ -137,36 +137,62 @@ exports.getAddCategory = async (req, res) => {
 exports.addCategory = [
   validateCategory,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).render("addEditCategory", {
-        errors: errors.array(),
-        category: { ...req.body },
-        action: "/categories/add",
-        submitLabel: "Add category",
-      });
-    }
+    try {
+      const render = (status, errors) =>
+        res.status(status).render("addEditCategory", {
+          errors,
+          category: { ...req.body },
+          action: "/categories/add",
+          submitLabel: "Add category",
+        });
 
-    const { ...raw } = matchedData(req, { includeOptionals: true });
-    const data = Object.fromEntries(
-      Object.entries(raw).map(([k, v]) => [k, v === "" ? null : v]),
-    );
-    const newId = await db.addCategory(data);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return render(400, errors.array());
+      }
 
-    if (!newId) {
-      return res.status(404).send("Unable to add category.");
+      const raw = matchedData(req, { includeOptionals: true });
+      const data = Object.fromEntries(
+        Object.entries(raw).map(([k, v]) => [
+          k,
+          v == null || v === "" ? null : v,
+        ]),
+      );
+
+      try {
+        await db.addCategory(data);
+        return res.redirect("/categories");
+      } catch (err) {
+        if (err.code === "23505") {
+          return render(400, [
+            { msg: "A category with that weight already exists." },
+          ]);
+        }
+        console.error(err);
+        return render(500, [
+          {
+            msg: "Something went wrong while adding the category. Please try again.",
+          },
+        ]);
+      }
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .send(
+          "Something went wrong while adding the category. Please try again.",
+        );
     }
-    res.redirect("/categories");
   },
 ];
 
 const DELETE_ERRORS = {
-  "23001": {
+  23001: {
     status: 409,
     message:
       "This category is still being used by one or more yarns. Please reassign or delete them first.",
   },
-  "23503": {
+  23503: {
     status: 409,
     message:
       "This category is still being used by one or more yarns. Please reassign or delete them first.",

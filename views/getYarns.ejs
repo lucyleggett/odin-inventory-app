@@ -4,13 +4,13 @@
   <table>
     <thead>
       <tr>
-        <th>Name</th><th>Brand</th><th>Color</th><th>Shade</th><th>Yarn weight</th>
-        <th>Dye lot</th><th>Qty</th><th>Material(s)</th><th>Net weight (g per ball)</th><th>Length (m)</th>
-        <th>Recommended needle size (mm)</th><th>Recommended hook size (mm)</th><th></th><th></th>
+        <th>name</th><th>brand</th><th>color</th><th>shade</th><th>yarn weight</th>
+        <th>dye lot</th><th>qty</th><th>material(s)</th><th>net weight (g per ball)</th><th>length (m)</th>
+        <th>recommended needle size (mm)</th><th>recommended hook size (mm)</th><th></th><th></th>
       </tr>
     </thead>
     <tbody>
-      <% yarns.forEach((y) => { %>;
+      <% yarns.forEach((y) => { %>
         <tr>
           <td><%= y.name %></td>
           <td><%= y.brand %></td>
@@ -31,7 +31,7 @@
             <button type="submit">Delete</button>
           </form></td>
         </tr>
-      <% }); %>
+      <% }) %>
     </tbody>
   </table>
   <td>

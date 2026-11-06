@@ -60,15 +60,77 @@ exports.getYarns = async (req, res) => {
   res.render("getYarns", { yarns });
 };
 
-exports.searchYarns = async (req, res) => {};
+exports.getAddYarn = async (req, res) => {
+  res.render("addEditYarn", {
+    errors: [],
+    yarn: {},
+    categories: {},
+    action: "/yarns/add",
+    submitLabel: "Add yarn",
+  });
+};
 
-exports.addYarn = async (req, res) => {};
+exports.addYarn = [
+  validateYarn,
+  async (req, res) => {
+    try {
+      const categories = await db.getAllCategories();
+
+      const render = (status, errors) =>
+        res.status(status).render("addEditYarn", {
+          errors,
+          yarn: { ...req.body },
+          categories,
+          action: "/yarns/add",
+          submitLabel: "Add yarn",
+        });
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return render(400, errors.array());
+      }
+
+      const raw = matchedData(req, { includeOptionals: true });
+      const data = Object.fromEntries(
+        Object.entries(raw).map(([k, v]) => [
+          k,
+          v == null || v === "" ? null : v,
+        ]),
+      );
+
+      try {
+        await db.addYarn(data);
+        return res.redirect("/yarns");
+      } catch (err) {
+        if (err.code === "NO_CATEGORY") {
+          return render(400, [
+            { msg: "That yarn weight doesn't exist. Choose an existing one." },
+          ]);
+        }
+        throw err;
+      }
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .send("Something went wrong while adding the yarn. Please try again.");
+    }
+  },
+];
+
+exports.searchYarns = async (req, res) => {};
 
 exports.getEditYarn = async (req, res) => {
   const yarn = await db.getYarn(req.params.id);
   if (!yarn) return res.status(404).send("Yarn not found");
   const categories = await db.getAllCategories();
-  res.render("editYarn", { errors: [], yarn, categories });
+  res.render("addEditYarn", {
+    errors: [],
+    yarn,
+    categories,
+    action: `/yarns/${req.params.id}/edit`,
+    submitLabel: "Save changes",
+  });
 };
 
 exports.editYarn = [
@@ -80,10 +142,12 @@ exports.editYarn = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const categories = await db.getAllCategories();
-      return res.status(400).render("editYarn", {
+      return res.status(400).render("addEditYarn", {
         errors: errors.array(),
         yarn: { ...req.body, id },
         categories,
+        action: `/yarns/${req.params.id}/edit`,
+        submitLabel: "Save changes",
       });
     }
 
