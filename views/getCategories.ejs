@@ -11,9 +11,11 @@
       <% categories.forEach((c) => { %>
         <tr>
           <td><%= c.weight %></td>
-          <td><ul><% (c.alt_names || []).forEach((name) => { %>
+          <td><% if (c.alt_names) { %>
+            <ul><% (c.alt_names || []).forEach((name) => { %>
             <li><%= name %></li>
-          <% }); %></ul></td>
+          <% }); %></ul>
+          <% } else { %> N/A <% } %></td>
           <td><% if (formatRange(c.ply_lower, c.ply_upper) !== "N/A") { %>
                 <%= `${formatRange(c.ply_lower, c.ply_upper)}` %>
               <% } %>
@@ -40,4 +42,7 @@
       <% }); %>
     </tbody>
   </table>
+  <form method="GET" action="/categories/add">
+    <button type="submit">Add category</button>
+  </form></td>
 <% } %>

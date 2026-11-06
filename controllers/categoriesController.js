@@ -10,7 +10,12 @@ exports.getCategories = async (req, res) => {
 exports.getEditCategory = async (req, res) => {
   const category = await db.getCategory(req.params.id);
   if (!category) return res.status(404).send("Category not found");
-  res.render("editCategory", { errors: [], category });
+  res.render("addEditCategory", {
+    errors: [],
+    category,
+    action: `/categories/${req.params.id}/edit`,
+    submitLabel: "Save changes",
+  });
 };
 
 const ranges = {
@@ -97,9 +102,11 @@ exports.editCategory = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("editCategory", {
+      return res.status(400).render("addEditCategory", {
         errors: errors.array(),
         category: { ...req.body, id: req.params.id },
+        action: `/categories/${req.params.id}/edit`,
+        submitLabel: "Save changes",
       });
     }
 
@@ -108,11 +115,9 @@ exports.editCategory = [
       Object.entries(raw).map(([k, v]) => [k, v === "" ? null : v]),
     );
 
-    console.log(data);
-
     const rowCount = await db.editCategory(id, data);
     if (rowCount === 0) {
-      return res.status(404).send("Yarn not found.");
+      return res.status(404).send("Category not found.");
     }
     res.redirect("/categories");
   },
@@ -120,6 +125,39 @@ exports.editCategory = [
 
 exports.searchCategories = async (req, res) => {};
 
-exports.addCategory = async (req, res) => {};
+exports.getAddCategory = async (req, res) => {
+  res.render("addEditCategory", {
+    errors: [],
+    category: {},
+    action: "/categories/add",
+    submitLabel: "Add category",
+  });
+};
+
+exports.addCategory = [
+  validateCategory,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("addEditCategory", {
+        errors: errors.array(),
+        category: { ...req.body },
+        action: "/categories/add",
+        submitLabel: "Add category",
+      });
+    }
+
+    const { ...raw } = matchedData(req, { includeOptionals: true });
+    const data = Object.fromEntries(
+      Object.entries(raw).map(([k, v]) => [k, v === "" ? null : v]),
+    );
+    const newId = await db.addCategory(data);
+
+    if (!newId) {
+      return res.status(404).send("Unable to add category.");
+    }
+    res.redirect("/categories");
+  },
+];
 
 exports.deleteCategory = async (req, res) => {};

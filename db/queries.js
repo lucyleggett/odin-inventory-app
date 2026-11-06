@@ -1,4 +1,3 @@
-const { splitCommaList } = require("../utils/formatUtils");
 const pool = require("./pool");
 
 //YARNS table
@@ -111,6 +110,30 @@ async function editCategory(id, data) {
   return rowCount;
 }
 
+async function addCategory(data) {
+  const newId = await pool.query(
+    `INSERT INTO categories (weight, alt_names, 
+    ply_lower, ply_upper, needle_lower, needle_upper, 
+    hook_lower, hook_upper, gauge_lower, gauge_upper)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    RETURNING id`,
+    [
+      data.weight,
+      data.alt_names,
+      data.ply_lower,
+      data.ply_upper,
+      data.needle_lower,
+      data.needle_upper,
+      data.hook_lower,
+      data.hook_upper,
+      data.gauge_lower,
+      data.gauge_upper,
+    ],
+  );
+
+  return newId;
+}
+
 module.exports = {
   getAllYarns,
   getYarn,
@@ -119,4 +142,5 @@ module.exports = {
   getAllCategories,
   getCategory,
   editCategory,
+  addCategory,
 };
