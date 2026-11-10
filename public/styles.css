@@ -95,6 +95,10 @@ p {
 }
 
 body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  min-height: 100dvh;
   font-family: var(--ff-body);
   font-size: var(--fs-body);
   background-color: var(--clr-bg);
@@ -148,6 +152,10 @@ nav > ul a {
   font-size: 30px;
   display: block;
   transition: color 0.2s ease;
+}
+
+li.home a:hover {
+  color: var(--clr-text-dark);
 }
 
 li.yarns a:hover {
@@ -237,7 +245,7 @@ table button svg {
 }
 
 .yarns.container > form button {
-  color: var(--clr-secondary);
+  color: color-mix(in srgb, var(--clr-secondary) 80%, black 20%);
 }
 
 .categories.container > form button {
@@ -278,16 +286,6 @@ fieldset {
   background-color: var(--clr-text-light);
   border: none;
   border-radius: 10px;
-}
-
-input[id^="ply_"],
-input[id^="needle_"],
-input[id^="hook_"],
-input[id^="gauge_"],
-input[id="length"],
-input[id="weight"],
-input[id="quantity"] {
-  text-align: center;
 }
 
 input[id^="ply_"] {
@@ -361,4 +359,44 @@ label[for$="_upper"] {
   background-color: rgb(255, 255, 255, 0.5);
   box-shadow: var(--button-shadow);
   margin: 0.5em;
+  transition: transform 0.2s ease-in-out;
+}
+
+#categories-form button[type^="submit"]:hover,
+#yarns-form button[type^="submit"]:hover {
+  transform: translate(-1px, 1px);
+}
+
+.errors {
+  padding: 1em 0.5em;
+}
+
+.errors ul {
+  padding-left: 20px;
+}
+
+.errors h2 {
+  font-family: var(--ff-title);
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  font-size: 18px;
+  color: var(--clr-bg);
+  background-color: var(--clr-border);
+  padding: 1em 2em;
+}
+
+footer a {
+  color: var(--clr-bg);
+  text-decoration: none;
+}
+
+.links > div > a {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }

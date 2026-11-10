@@ -1,67 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
-  <script src="https://kit.fontawesome.com/53d5910f58.js" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
-  <title>Categories</title>
-</head>
-<body>
-  </html><%- include("partials/navbar.ejs") %>
-  <div class="categories container">
-    <% if (categories.length === 0) { %>
-      <p>No results found</p>
-    <% } else { %>
-      <table class="categories">
-        <thead>
-          <tr>
-            <th>Weight</th><th>Alternative names</th><th>Ply</th><th>Needle size</th>
-            <th>Hook size</th><th>Gauge<br>(10x10cm)</th></th><th></th><th>
-          </tr>
-        </thead>
-        <tbody>
-          <% categories.forEach((c) => { %>
-            <tr>
-              <td><%= toSentenceCase(c.weight) %></td>
-              <td><% if (c.alt_names) { %>
-                <ul><% (c.alt_names || []).forEach((name) => { %>
-                <li><%= toSentenceCase(name) %></li>
-              <% }); %></ul>
-              <% } else { %> N/A <% } %></td>
-              <td><% if (formatRange(c.ply_lower, c.ply_upper) !== "N/A") { %>
-                    <%= `${formatRange(c.ply_lower, c.ply_upper)}` %>
-                  <% } %>
-              </td>          
-              <td><% if (formatRange(c.needle_lower, c.needle_upper) !== "N/A") { %>
-                    <%= `${formatRange(c.needle_lower, c.needle_upper)}mm` %>
-                  <% } %>
-              </td>          
-              <td><% if (formatRange(c.hook_lower, c.hook_upper) !== "N/A") { %>
-                    <%= `${formatRange(c.hook_lower, c.hook_upper)}mm` %>
-                  <% } %>
-              </td>          
-              <td><% if (formatRange(c.gauge_lower, c.gauge_upper) !== "N/A") { %>
-                    <%= `${formatRange(c.gauge_lower, c.gauge_upper)} stitches` %>
-                  <% } %>
-              </td>
-              <td><form method="GET" action="/categories/<%= c.id %>/edit">
-                <button type="submit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
-              </form></td>
-              <td><form method="POST" action="/categories/<%= c.id %>/delete">
-                <button type="submit" aria-label="Delete"><i class="fa-regular fa-trash-can"></i></button>
-              </form></td>
-            </tr>
-          <% }); %>
-        </tbody>
-      </table>
-      <form method="GET" action="/categories/add">
-        <button type="submit">+ Add category</button>
-      </form></td>
-    <% } %>
-    </div>
-  </body>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>   
+  <meta charset="UTF-8">   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+  <link rel="stylesheet" href="/styles.css">   
+  <script src="https://kit.fontawesome.com/53d5910f58.js" crossorigin="anonymous"></script>   
+  <link rel="preconnect" href="https://fonts.googleapis.com">   
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>   
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">   
+  <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">   
+  <title>Categories</title> 
+</head> 
+<body>   
+  <%- include("partials/navbar.ejs") %>   
+  <div class="categories container">     
+    <% if (categories.length === 0) { %>       
+      <p>No results found</p>     
+    <% } else { %>       
+      <table class="categories">         
+        <thead>           
+          <tr>             
+            <th>Weight</th>
+            <th>Alternative names</th>
+            <th>Ply</th>
+            <th>Needle size</th>             
+            <th>Hook size</th>
+            <th>Gauge<br>(10x10cm)</th>
+            <th aria-label="Edit"></th>
+            <th aria-label="Delete"></th>
+          </tr>         
+        </thead>         
+        <tbody>           
+          <% categories.forEach((c) => { %>             
+            <tr>               
+              <td><%= toSentenceCase(c.weight) %></td>               
+              <td>
+                <% if (c.alt_names && c.alt_names.length > 0) { %>                 
+                  <ul>
+                    <% c.alt_names.forEach((name) => { %>                 
+                      <li><%= toSentenceCase(name) %></li>                 
+                    <% }); %>
+                  </ul>               
+                <% } else { %> - <% } %>
+              </td>               
+              <% const plyRange = formatRange(c.ply_lower, c.ply_upper); %>               
+              <td><%= plyRange !== "N/A" ? plyRange : "-" %></td>                       
+              <% const needleRange = formatRange(c.needle_lower, c.needle_upper); %>               
+              <td><%= needleRange !== "N/A" ? needleRange : "-" %></td>                       
+              <% const hookRange = formatRange(c.hook_lower, c.hook_upper); %>               
+              <td><%= hookRange !== "N/A" ? hookRange : "-" %></td>                       
+              <% const gaugeRange = formatRange(c.gauge_lower, c.gauge_upper); %>               
+              <td><%= gaugeRange !== "N/A" ? `${gaugeRange} stitches` : "-" %></td>                       
+              <td>
+                <form method="GET" action="/categories/<%= c.id %>/edit">                 
+                  <button type="submit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>               
+                </form>
+              </td>               
+              <td>
+                <form method="POST" action="/categories/<%= c.id %>/delete">                 
+                  <button type="submit" aria-label="Delete"><i class="fa-regular fa-trash-can"></i></button>               
+                </form>
+              </td>             
+            </tr>           
+          <% }); %>         
+        </tbody>       
+      </table>       
+    <% } %> 
+    <form method="GET" action="/categories/add">         
+      <button type="submit">+ Add category</button>       
+    </form>
+  </div>     
+  <%- include("partials/footer.ejs") %>   
+</body> 
+</html>

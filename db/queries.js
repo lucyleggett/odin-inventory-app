@@ -78,7 +78,7 @@ async function addYarn(data) {
        materials, net_weight, length_meters, rec_needle, rec_hook
      )
      SELECT
-       id, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+       id, $2, $3, $4, $5, $6, COALESCE($7, 1), $8, $9, $10, $11, $12
      FROM categories
      WHERE LOWER(weight) = LOWER($1)
      RETURNING id`,

@@ -163,6 +163,8 @@ exports.addCategory = [
         ]),
       );
 
+      console.log(data);
+
       try {
         await db.addCategory(data);
         return res.redirect("/categories");

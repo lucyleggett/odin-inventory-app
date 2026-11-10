@@ -31,17 +31,17 @@
           <% yarns.forEach((y) => { %>
             <tr>
               <td><%= y.name %></td>
-              <td><%= y.brand %></td>
-              <td><%= y.color %></td>
-              <td><%= y.shade_code %></td>
-              <td><%= toSentenceCase(y.weight) %></td>
-              <td><%= y.dye_lot || "N/A" %></td>
+              <td><%= y.brand || "-" %></td>
+              <td><%= y.color || "-" %></td>
+              <td><%= y.shade_code || "-" %></td>
+              <td><%= toSentenceCase(y.weight) || "-" %></td>
+              <td><%= y.dye_lot || "-" %></td>
               <td><%= y.quantity %></td>
-              <td><%= toSentenceCase((y.materials || []).join(", ")) %></td>
-              <td><%= y.net_weight %></td>
-              <td><%= y.length_meters %></td>
-              <td><%= y.rec_needle %></td>
-              <td><%= y.rec_hook %></td>
+              <td><%= toSentenceCase((y.materials || []).join(", ")) || "-"%></td>
+              <td><%= y.net_weight || "-"%></td>
+              <td><%= y.length_meters || "-" %></td>
+              <td><%= y.rec_needle || "-" %></td>
+              <td><%= y.rec_hook || "-" %></td>
               <td><form method="GET" action="/yarns/<%= y.id %>/edit">
                 <button type="submit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
               </form></td>
@@ -58,7 +58,7 @@
       </form></td>
     <% } %>
   </div>
-
+  <%- include("partials/footer.ejs") %>
 </body>
 </html>
 

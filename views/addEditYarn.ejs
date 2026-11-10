@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/styles.css">
+  <script src="https://kit.fontawesome.com/53d5910f58.js" crossorigin="anonymous"></script>   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,14 +17,18 @@
 
     <% const errs = locals.errors || []; %>
     <% if (errs.length) { %>
-      <ul>
-        <% errs.forEach((e) => { %>
-          <li><%= e.msg %></li>
-        <% }); %>
-      </ul>
+      <div class="errors">
+        <h2>Oops!</h2>
+        <ul>
+          <% errs.forEach((e) => { %>
+            <li><%= e.msg %></li>
+          <% }); %>
+        </ul>
+      </div>
     <% } %>
 
     <%- include("partials/yarnForm.ejs", { yarn, categories }) %>
   </div>
+  <%- include("partials/footer.ejs") %>
 </body>
 </html>
