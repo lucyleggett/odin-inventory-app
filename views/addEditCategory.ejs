@@ -7,20 +7,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
   <title><%- title %></title>
 </head>
 <body>
   <%- include("partials/navbar.ejs") %>
+  <div class="container">
 
-  <% const errs = locals.errors || []; %>
-  <% if (errs.length) { %>
-    <ul>
-      <% errs.forEach((e) => { %>
-        <li><%= e.msg %></li>
-      <% }); %>
-    </ul>
-  <% } %>
+    <% const errs = locals.errors || []; %>
+    <% if (errs.length) { %>
+      <ul>
+        <% errs.forEach((e) => { %>
+          <li><%= e.msg %></li>
+        <% }); %>
+      </ul>
+    <% } %>
 
-  <%- include("partials/categoriesForm.ejs", { category }) %>
+    <%- include("partials/categoriesForm.ejs", { category }) %>
+  </div>
 </body>
 </html>

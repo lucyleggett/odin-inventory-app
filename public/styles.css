@@ -1,8 +1,9 @@
 :root {
-  --clr-primary: #e6a0f3;
+  --clr-primary: #5c5b8b;
   --clr-secondary: #8ac752;
-  --clr-tertiary: #ea62b1;
-  --clr-dark: #5c5b8b;
+  --clr-tertiary: rgba(218, 79, 122);
+  --clr-tertiary-dark: rgba(125, 29, 78);
+  --clr-dark: ;
   --clr-bg: #ddefd7;
   --clr-bg-hover: #a2bb9a;
   --clr-border: #7d8a79;
@@ -11,10 +12,15 @@
   --clr-text-light: white;
 
   --ff-body: "IBM Plex Sans Arabic", sans-serif;
+  --ff-title: "Rakkas", serif;
 
   --fs-body: 16px;
   --fs-title: 24px;
   --fs-th: 20px;
+
+  --box-shadow:
+    rgba(0, 0, 0, 0.5) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  --button-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 html,
@@ -104,10 +110,26 @@ body {
 
 nav {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   align-self: flex-end;
-  background-color: var(--clr-dark);
+  font-family: var(--ff-title);
+  padding: 1em;
+}
+
+nav h1 {
+  margin: 0 20px;
+  color: var(--clr-tertiary);
+}
+
+nav img {
+  width: 100px;
+}
+
+.logo {
+  display: flex;
+  font-size: 36px;
 }
 
 nav > ul {
@@ -122,21 +144,37 @@ nav > ul {
 
 nav > ul a {
   text-decoration: none;
-  color: #ffffff;
-  font-family: sans-serif;
-  font-size: 16px;
+  color: var(--clr-border);
+  font-size: 30px;
   display: block;
   transition: color 0.2s ease;
 }
 
-nav > ul a:hover {
+li.yarns a:hover {
   color: var(--clr-secondary);
 }
 
+li.categories a:hover {
+  color: var(--clr-primary);
+}
+
+table.categories th {
+  background-color: var(--clr-primary);
+  color: var(--clr-text-light);
+}
+
+table.yarns th {
+  background-color: var(--clr-secondary);
+}
+
 table {
-  border-collapse: collapse;
+  border-collapse: separate;
   border-spacing: 0;
   width: fit-content;
+  background-color: var(--clr-text-light);
+  box-shadow: var(--box-shadow);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 th {
@@ -144,48 +182,183 @@ th {
   max-width: 150px;
 }
 
+th:first-child {
+  border-top-left-radius: 10px;
+}
+th:last-child {
+  border-top-right-radius: 10px;
+}
+
 th,
 td {
-  padding: 0.25em 0.5em;
+  padding: clamp(0.5em, 1.5dvw, 15px);
 }
 
-tr {
-  border: none;
-  border-bottom: 1px solid var(--clr-border);
-}
-
-tr:nth-child(even) {
+table.yarns tr:nth-child(even) {
   background-color: color-mix(
     in srgb,
-    var(--clr-bg-hover) 30%,
-    transparent 70%
+    var(--clr-secondary) 20%,
+    transparent 80%
   );
 }
 
-td {
+table.categories tr:nth-child(even) {
+  background-color: color-mix(in srgb, var(--clr-primary) 20%, transparent 80%);
 }
 
 table ul {
   padding-left: 20px;
-  list-style-type:;
 }
 
 table ul > li::marker {
   font-size: 0.5rem;
 }
 
-table button {
-  background-color: transparent;
-  border: none;
-}
-
-.container > form button {
+button {
   padding: 0.4em 0.8em;
   border-radius: 9999px;
   border: none;
-  color: var(--clr-tertiary);
   font-weight: 700;
   margin: 1em;
   background-color: transparent;
   align-self: flex-start;
+}
+
+table button {
+  width: fit-content;
+  padding: 0;
+  margin: 0;
+}
+
+table button svg {
+  width: 1em;
+  height: 1em;
+  max-width: none;
+}
+
+.yarns.container > form button {
+  color: var(--clr-secondary);
+}
+
+.categories.container > form button {
+  color: var(--clr-primary);
+}
+
+#categories-form,
+#yarns-form {
+  display: grid;
+  grid-template-rows: repeat(1fr, 7);
+  width: fit-content;
+  gap: 10px;
+  padding: 1em;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+}
+
+#yarns-form {
+  background-color: var(--clr-secondary);
+}
+
+#categories-form {
+  background-color: var(--clr-primary);
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+#categories-form input,
+#yarns-form input,
+#yarns-form select {
+  height: 37px;
+  padding: 0.4em 0.7em;
+  background-color: var(--clr-text-light);
+  border: none;
+  border-radius: 10px;
+}
+
+input[id^="ply_"],
+input[id^="needle_"],
+input[id^="hook_"],
+input[id^="gauge_"],
+input[id="length"],
+input[id="weight"],
+input[id="quantity"] {
+  text-align: center;
+}
+
+input[id^="ply_"] {
+  width: 60px;
+}
+
+input[id^="gauge_"],
+input[id="quantity"] {
+  width: 70px;
+}
+
+input[id^="needle_"],
+input[id^="hook_"],
+input[id$="_needle"],
+input[id$="_hook"],
+input[id="length_meters"],
+input[id="net_weight"] {
+  width: 80px;
+}
+
+input[id="shade_code"],
+input[id="dye_lot"] {
+  width: 90px;
+}
+
+select[id="weight"] {
+  width: 180px;
+}
+
+input[id="weight"],
+input[id="name"],
+input[id="alt_names"],
+input[id="materials"],
+input[id="brand"],
+input[id="color"] {
+  width: 300px;
+}
+
+#categories-form legend,
+#categories-form label {
+  color: rgb(255, 255, 255, 0.8);
+}
+
+#yarns-form legend,
+#yarns-form label {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+legend,
+label {
+  font-weight: 500;
+  margin-bottom: 0.2em;
+}
+
+label[for$="_upper"] {
+  font-size: 14px;
+  color: var(--clr-text-light);
+}
+
+.couple {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+#categories-form button[type^="submit"],
+#yarns-form button[type^="submit"] {
+  width: fit-content;
+  justify-self: center;
+  font-weight: 400;
+  background-color: rgb(255, 255, 255, 0.5);
+  box-shadow: var(--button-shadow);
+  margin: 0.5em;
 }

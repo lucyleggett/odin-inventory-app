@@ -1,20 +1,20 @@
-<form action="<%= action %>" method="POST">
+<form action="<%= action %>" method="POST" id="yarns-form">
   <div class="couple">
-    <label for="weight">weight</label>
-    <select name="weight" id="weight" selected="<%= yarn.weight || "" %>" required>
-      <option value="lace">lace (1-2 ply)</option>
-      <option value="fingering">fingering (4 ply)</option>
-      <option value="sport">sport (5 ply)</option>
-      <option value="doubleKnit">double knit (8 ply)</option>
-      <option value="aran">aran (10 ply)</option>
-      <option value="chunky">chunky (12-14 ply)</option>
-      <option value="roving">roving (16 ply)</option>
-      <option value="jumbo">jumbo (20+ ply)</option>
+    <label for="weight">Weight</label>
+    <select name="weight" id="weight" required>
+      <% categories.forEach((c) => { %>
+        <option 
+          value="<%= c.weight %>" 
+          <%= yarn.weight === c.weight ? 'selected' : '' %>
+        >
+          <%= toSentenceCase(c.weight) %> (<%= formatRange(c.ply_lower, c.ply_upper) %> ply)
+        </option>
+      <% }) %>
     </select>
   </div>
 
   <div class="couple">
-    <label for="name">name</label>
+    <label for="name">Name</label>
     <input
       name="name"
       type="text"
@@ -25,17 +25,17 @@
   </div>
 
   <div class="couple">
-    <label for="brand">brand</label>
+    <label for="brand">Brand</label>
     <input name="brand" type="text" id="brand" value="<%= yarn.brand || "" %>" />
   </div>
 
   <div class="couple">
-    <label for="color">color</label>
+    <label for="color">Colour</label>
     <input name="color" type="text" id="color" value="<%= yarn.color || "" %>" />
   </div>
 
   <div class="couple">
-    <label for="shade_code">shade code</label>
+    <label for="shade_code">Shade code</label>
     <input
       name="shade_code"
       type="number"
@@ -45,7 +45,7 @@
   </div>
 
   <div class="couple">
-    <label for="dye_lot">dye lot</label>
+    <label for="dye_lot">Dye lot</label>
     <input
       name="dye_lot"
       type="number"
@@ -55,7 +55,7 @@
   </div>
 
   <div class="couple">
-    <label for="quantity">quantity (# of balls)</label>
+    <label for="quantity">Quantity (# of balls)</label>
     <input
       name="quantity"
       type="number"
@@ -65,7 +65,7 @@
   </div>
 
   <div class="couple">
-    <label for="materials">materials</label>
+    <label for="materials">Material(s)</label>
     <input
       name="materials"
       type="text"
@@ -75,7 +75,7 @@
   </div>
 
   <div class="couple">
-    <label for="net_weight">net weight (g per ball)</label>
+    <label for="net_weight">Net weight (g per ball)</label>
     <input
       name="net_weight"
       type="number"
@@ -85,7 +85,7 @@
   </div>
 
   <div class="couple">
-    <label for="length_meters">length (metres)</label>
+    <label for="length_meters">Length (m)</label>
     <input
       name="length_meters"
       type="number"
@@ -95,7 +95,7 @@
   </div>
 
   <div class="couple">
-    <label for="rec_needle">recommended needles (mm)</label>
+    <label for="rec_needle">Recommended needles (mm)</label>
     <input
       name="rec_needle"
       type="number"
@@ -105,7 +105,7 @@
   </div>
 
   <div class="couple">
-    <label for="rec_hook">recommended hook (mm)</label>
+    <label for="rec_hook">Recommended hook (mm)</label>
     <input
       name="rec_hook"
       type="number"

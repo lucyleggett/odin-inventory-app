@@ -8,16 +8,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
   <title>Yarns</title>
 </head>
 <body>
   <%- include("partials/navbar.ejs") %>
-  <div class="container">
+  <div class=" yarns container">
 
     <% if (yarns.length === 0) { %>
       <p>No results found</p>
     <% } else { %>
-      <table>
+      <table class="yarns">
         <thead>
           <tr>
             <th>Name</th><th>Brand</th><th>Color</th><th>Shade</th><th>Yarn weight</th>

@@ -1,6 +1,6 @@
-<form action="<%= action %>" method="POST">
+<form action="<%= action %>" method="POST" id="categories-form">
   <div class="couple">
-    <label for="weight">weight</label>
+    <label for="weight">Weight</label>
     <input
       name="weight"
       type="text"
@@ -10,7 +10,7 @@
   </div>
 
   <div class="couple">
-    <label for="alt_names">alternative names</label>
+    <label for="alt_names">Alternative names</label>
     <input
       name="alt_names"
       type="text"
@@ -19,10 +19,10 @@
     />
   </div>
 
-  <fieldset class="couple">
-    <legend for="ply">ply</legend>
+  <fieldset>
+    <legend for="ply">Ply</legend>
 
-    <label for="ply_lower">lower bound</label>
+    <label for="ply_lower" aria-label="Lower bound"></label>
     <input
       name="ply_lower"
       type="number"
@@ -31,7 +31,7 @@
       required
     />
 
-    <label for="ply_upper">upper bound</label>
+    <label for="ply_upper" aria-label="Upper bound">to</label>
     <input
       name="ply_upper"
       type="number"
@@ -40,10 +40,10 @@
     />
   </fieldset>
 
-  <fieldset class="couple">
-    <legend for="needle_size">needle size (mm)</legend>
+  <fieldset>
+    <legend for="needle_size">Needle size (mm)</legend>
 
-    <label for="needle_lower">lower bound</label>
+    <label for="needle_lower" aria-label="Lower bound"></label>
     <input
       name="needle_lower"
       type="number"
@@ -52,7 +52,7 @@
       value="<%= category.needle_lower || ""  %>"
     />
 
-    <label for="needle_upper">upper bound</label>
+    <label for="needle_upper" aria-label="Upper bound">to</label>
     <input
       name="needle_upper"
       type="number"
@@ -62,10 +62,10 @@
     />
   </fieldset>
 
-  <fieldset class="couple">
-    <legend for="hook_size">hook size (mm)</legend>
+  <fieldset>
+    <legend for="hook_size">Hook size (mm)</legend>
 
-    <label for="hook_lower">lower bound</label>
+    <label for="hook_lower" aria-label="Lower bound"></label>
     <input
       name="hook_lower"
       type="number"
@@ -74,7 +74,7 @@
       value="<%= category.hook_lower || ""  %>"
     />
 
-    <label for="hook_upper">upper bound</label>
+    <label for="hook_upper" aria-label="Upper bound">to</label>
     <input
       name="hook_upper"
       type="number"
@@ -84,10 +84,10 @@
     />
   </fieldset>
 
-  <fieldset class="couple">
-    <legend for="gauge">gauge (# stitches over 10cm)</legend>
+  <fieldset>
+    <legend for="gauge">Gauge (10 x 10cm)</legend>
 
-    <label for="gauge_lower">lower bound</label>
+    <label for="gauge_lower" aria-label="Lower bound"></label>
     <input
       name="gauge_lower"
       type="number"
@@ -95,7 +95,7 @@
       value="<%= category.gauge_lower || ""  %>"
     />
 
-    <label for="gauge_upper">upper bound</label>
+    <label for="gauge_upper" aria-label="Upper bound">to</label>
     <input
       name="gauge_upper"
       type="number"

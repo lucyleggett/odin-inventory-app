@@ -61,11 +61,13 @@ exports.getYarns = async (req, res) => {
 };
 
 exports.getAddYarn = async (req, res) => {
+  const categories = await db.getAllCategories();
+
   res.render("addEditYarn", {
     title: "Add yarn",
     errors: [],
     yarn: {},
-    categories: {},
+    categories,
     action: "/yarns/add",
     submitLabel: "Add yarn",
   });
