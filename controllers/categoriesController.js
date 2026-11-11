@@ -3,8 +3,9 @@ const db = require("../db/queries");
 const { validateId, errMsgs } = require("../utils/validationUtils");
 
 exports.getCategories = async (req, res) => {
-  const categories = await db.getAllCategories();
-  res.render("getCategories", { categories });
+  const q = (req.query.q || "").trim();
+  const categories = q ? await db.searchCategories(q) : await db.getAllCategories();
+  res.render("getCategories", { categories, q, action: "/categories" });
 };
 
 exports.getEditCategory = async (req, res) => {

@@ -232,14 +232,33 @@ table ul > li::marker {
   font-size: 0.5rem;
 }
 
+.show-all {
+  color: var(--clr-text-dark);
+  font-weight: 600;
+  margin-top: 0.25em;
+}
+
 button {
-  padding: 0.4em 0.8em;
   border-radius: 9999px;
   border: none;
-  font-weight: 700;
-  margin: 1em;
   background-color: transparent;
+}
+
+input[name="q"] {
+  border-radius: 9999px;
+  margin-bottom: 2em;
+}
+
+button:not(#search) {
+  font-weight: 700;
+  padding: 0.4em 0.8em;
   align-self: flex-start;
+  margin: 1em;
+}
+
+button#search {
+  color: var(--clr-border);
+  margin: 0.5em;
 }
 
 table button {
@@ -290,11 +309,17 @@ fieldset {
 
 #categories-form input,
 #yarns-form input,
-#yarns-form select {
+#yarns-form select,
+input[name="q"] {
   height: 37px;
   padding: 0.4em 0.7em;
   background-color: var(--clr-text-light);
   border: none;
+}
+
+#categories-form input,
+#yarns-form input,
+#yarns-form select {
   border-radius: 10px;
 }
 

@@ -107,6 +107,38 @@ async function addYarn(data) {
   return rows[0].id;
 }
 
+async function searchYarns(query) {
+  const terms = query
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((t) => `%${t.replace(/[\\%_]/g, "\\$&")}%`);
+
+  if (terms.length === 0) return getAllYarns();
+
+  const conditions = terms
+    .map(
+      (term, i) => `CONCAT_WS(' ',
+        y.name, y.brand, y.color, y.shade_code, y.dye_lot,
+        array_to_string(y.materials, ' '),
+        c.weight,
+        array_to_string(c.alt_names, ' ')
+      ) ILIKE $${i + 1}`,
+    )
+    .join(" AND ");
+
+  const { rows } = await pool.query(
+    `SELECT y.*, c.weight
+     FROM yarns y
+     JOIN categories c ON c.id = y.weight_id
+     WHERE ${conditions}
+     ORDER BY y.name`,
+    terms,
+  );
+
+  return rows;
+}
+
 //CATEGORIES table
 async function getAllCategories() {
   const { rows } = await pool.query(`
@@ -193,15 +225,47 @@ async function deleteCategory(id) {
   return rowCount;
 }
 
+async function searchCategories(query) {
+  const terms = query
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((t) => `%${t.replace(/[\\%_]/g, "\\$&")}%`);
+
+  if (terms.length === 0) return getAllCategories();
+
+  const conditions = terms
+    .map(
+      (term, i) => `CONCAT_WS(' ',
+        weight, array_to_string(alt_names, ' '), ply_lower,
+        ply_upper, needle_lower, needle_upper, hook_lower, 
+        hook_upper, gauge_lower, gauge_upper
+      ) ILIKE $${i + 1}`,
+    )
+    .join(" AND ");
+
+  const { rows } = await pool.query(
+    `SELECT *
+     FROM categories
+     WHERE ${conditions}
+     ORDER BY id`,
+    terms,
+  );
+
+  return rows;
+}
+
 module.exports = {
   getAllYarns,
   getYarn,
   editYarn,
   deleteYarn,
   addYarn,
+  searchYarns,
   getAllCategories,
   getCategory,
   editCategory,
   addCategory,
   deleteCategory,
+  searchCategories,
 };

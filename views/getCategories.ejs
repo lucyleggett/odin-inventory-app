@@ -16,8 +16,12 @@
 <body>
   <%- include("partials/navbar.ejs") %>
   <div class="categories container">
+    <%- include("partials/searchBar.ejs", { action }) %>
     <% if (categories.length === 0) { %>
     <p>No results found</p>
+    <% if (locals.q) { %>
+    <a class="show-all button" href="/categories">Show all categories</a>
+    <% } %>
     <% } else { %>
     <div class="table-container">
       <table class="categories">

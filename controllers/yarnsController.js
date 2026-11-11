@@ -56,8 +56,9 @@ const validateYarn = [
 ];
 
 exports.getYarns = async (req, res) => {
-  const yarns = await db.getAllYarns();
-  res.render("getYarns", { yarns });
+  const q = (req.query.q || "").trim();
+  const yarns = q ? await db.searchYarns(q) : await db.getAllYarns();
+  res.render("getYarns", { yarns, q, action: "/yarns" });
 };
 
 exports.getAddYarn = async (req, res) => {
@@ -121,8 +122,6 @@ exports.addYarn = [
     }
   },
 ];
-
-exports.searchYarns = async (req, res) => {};
 
 exports.getEditYarn = async (req, res) => {
   const yarn = await db.getYarn(req.params.id);
