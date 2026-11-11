@@ -18,47 +18,57 @@
     <% if (yarns.length === 0) { %>
       <p>No results found</p>
     <% } else { %>
-      <table class="yarns">
-        <thead>
-          <tr>
-            <th>Name</th><th>Brand</th><th>Color</th><th>Shade</th><th>Yarn weight</th>
-            <th>Dye lot</th><th>Qty</th><th>Material(s)</th><th>Weight per ball<br>(g)</th>
-            <th>Length<br>(m)</th><th>Needle size<br>(mm)</th><th>Hook size<br>(mm)</th><th>
-            </th><th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% yarns.forEach((y) => { %>
+      <div class="table-container">
+        <table class="yarns">
+          <thead>
             <tr>
-              <td><%= y.name %></td>
-              <td><%= y.brand || "-" %></td>
-              <td><%= y.color || "-" %></td>
-              <td><%= y.shade_code || "-" %></td>
-              <td><%= toSentenceCase(y.weight) || "-" %></td>
-              <td><%= y.dye_lot || "-" %></td>
-              <td><%= y.quantity %></td>
-              <td><%= toSentenceCase((y.materials || []).join(", ")) || "-"%></td>
-              <td><%= y.net_weight || "-"%></td>
-              <td><%= y.length_meters || "-" %></td>
-              <td><%= y.rec_needle || "-" %></td>
-              <td><%= y.rec_hook || "-" %></td>
-              <td><form method="GET" action="/yarns/<%= y.id %>/edit">
-                <button type="submit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
-              </form></td>
-              <td><form method="POST" action="/yarns/<%= y.id %>/delete">
-                <button type="submit" aria-label="Delete"><i class="fa-regular fa-trash-can"></i></button>
-              </form></td>
+              <th scope="col">Name</th>
+              <th scope="col">Brand</th>
+              <th scope="col">Color</th>
+              <th scope="col">Shade</th>
+              <th scope="col">Yarn weight</th>
+              <th scope="col">Dye lot</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Material(s)</th>
+              <th scope="col">Weight per ball<br>(g)</th>
+              <th scope="col">Length<br>(m)</th>
+              <th scope="col">Needle size<br>(mm)</th>
+              <th scope="col">Hook size<br>(mm)</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
-      <td>
+          </thead>
+          <tbody>
+            <% yarns.forEach((y) => { %>
+              <tr>
+                <td><%= y.name %></td>
+                <td><%= y.brand || "-" %></td>
+                <td><%= y.color || "-" %></td>
+                <td><%= y.shade_code || "-" %></td>
+                <td><%= toSentenceCase(y.weight) || "-" %></td>
+                <td><%= y.dye_lot || "-" %></td>
+                <td><%= y.quantity %></td>
+                <td><%= toSentenceCase((y.materials || []).join(", ")) || "-"%></td>
+                <td><%= y.net_weight || "-"%></td>
+                <td><%= y.length_meters || "-" %></td>
+                <td><%= y.rec_needle || "-" %></td>
+                <td><%= y.rec_hook || "-" %></td>
+                <td><form method="GET" action="/yarns/<%= y.id %>/edit">
+                  <button type="submit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
+                </form></td>
+                <td><form method="POST" action="/yarns/<%= y.id %>/delete">
+                  <button type="submit" aria-label="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                </form></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table> 
+      </div>
       <form method="GET" action="/yarns/add">
         <button type="submit">+ Add yarn</button>
-      </form></td>
+      </form>
     <% } %>
   </div>
   <%- include("partials/footer.ejs") %>
 </body>
 </html>
-

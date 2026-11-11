@@ -3,25 +3,16 @@
     <label for="weight">Weight</label>
     <select name="weight" id="weight" required>
       <% categories.forEach((c) => { %>
-        <option 
-          value="<%= c.weight %>" 
-          <%= yarn.weight === c.weight ? 'selected' : '' %>
-        >
-          <%= toSentenceCase(c.weight) %> (<%= formatRange(c.ply_lower, c.ply_upper) %> ply)
-        </option>
+      <option value="<%= c.weight %>" <%= yarn.weight === c.weight ? 'selected' : '' %>>
+        <%= toSentenceCase(c.weight) %> (<%= formatRange(c.ply_lower, c.ply_upper) %> ply)
+      </option>
       <% }) %>
     </select>
   </div>
 
   <div class="couple">
     <label for="name">Name</label>
-    <input
-      name="name"
-      type="text"
-      id="name"
-      value="<%= yarn.name || "" %>"
-      required
-    />
+    <input name="name" type="text" id="name" value="<%= yarn.name || "" %>" required />
   </div>
 
   <div class="couple">
@@ -36,82 +27,42 @@
 
   <div class="couple">
     <label for="shade_code">Shade code</label>
-    <input
-      name="shade_code"
-      type="number"
-      id="shade_code"
-      value="<%= yarn.shade_code || "" %>"
-    />
+    <input name="shade_code" type="number" id="shade_code" value="<%= yarn.shade_code || "" %>" />
   </div>
 
   <div class="couple">
     <label for="dye_lot">Dye lot</label>
-    <input
-      name="dye_lot"
-      type="number"
-      id="dye_lot"
-      value="<%= yarn.dye_lot || "" %>"
-    />
+    <input name="dye_lot" type="number" id="dye_lot" value="<%= yarn.dye_lot || "" %>" />
   </div>
 
   <div class="couple">
     <label for="quantity">Quantity (# of balls)</label>
-    <input
-      name="quantity"
-      type="number"
-      id="quantity"
-      value="<%= yarn.quantity || "" %>"
-    />
+    <input name="quantity" type="number" id="quantity" value="<%= yarn.quantity || "" %>" />
   </div>
 
   <div class="couple">
     <label for="materials">Material(s)</label>
-    <input
-      name="materials"
-      type="text"
-      id="materials"
-      value="<%= Array.isArray(yarn.materials) ? yarn.materials.join(', ') : (yarn.materials || '') %>"
-    />
+    <input name="materials" type="text" id="materials" value="<%= Array.isArray(yarn.materials) ? yarn.materials.join(', ') : (yarn.materials || '') %>" />
   </div>
 
   <div class="couple">
     <label for="net_weight">Net weight (g per ball)</label>
-    <input
-      name="net_weight"
-      type="number"
-      id="net_weight"
-      value="<%= yarn.net_weight || "" %>"
-    />
+    <input name="net_weight" type="number" id="net_weight" value="<%= yarn.net_weight || "" %>" />
   </div>
 
   <div class="couple">
     <label for="length_meters">Length (m)</label>
-    <input
-      name="length_meters"
-      type="number"
-      id="length_meters"
-      value="<%= yarn.length_meters || "" %>"
-    />
+    <input name="length_meters" type="number" id="length_meters" value="<%= yarn.length_meters || "" %>" />
   </div>
 
   <div class="couple">
     <label for="rec_needle">Recommended needles (mm)</label>
-    <input
-      name="rec_needle"
-      type="number"
-      id="rec_needle"
-      value="<%= yarn.rec_needle || "" %>"
-    />
+    <input name="rec_needle" type="number" id="rec_needle" value="<%= yarn.rec_needle || "" %>" />
   </div>
 
   <div class="couple">
     <label for="rec_hook">Recommended hook (mm)</label>
-    <input
-      name="rec_hook"
-      type="number"
-      id="rec_hook"
-      value="<%= yarn.rec_hook || "" %>"
-    />
+    <input name="rec_hook" type="number" id="rec_hook" value="<%= yarn.rec_hook || "" %>" />
   </div>
 
   <button type="submit"><%= submitLabel %></button>

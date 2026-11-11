@@ -1,107 +1,52 @@
 <form action="<%= action %>" method="POST" id="categories-form">
   <div class="couple">
     <label for="weight">Weight</label>
-    <input
-      name="weight"
-      type="text"
-      id="weight"
-      value="<%= category.weight || "" %>"
-    />
+    <input name="weight" type="text" id="weight" value="<%= category.weight || "" %>" />
   </div>
 
   <div class="couple">
     <label for="alt_names">Alternative names</label>
-    <input
-      name="alt_names"
-      type="text"
-      id="alt_names"
-      value="<%= Array.isArray(category.alt_names) ? category.alt_names.join(', ') : (category.alt_names || '') %>"
-    />
+    <input name="alt_names" type="text" id="alt_names" value="<%= Array.isArray(category.alt_names) ? category.alt_names.join(', ') : (category.alt_names || '') %>" />
   </div>
 
   <fieldset>
     <legend for="ply">Ply</legend>
 
     <label for="ply_lower" aria-label="Lower bound"></label>
-    <input
-      name="ply_lower"
-      type="number"
-      id="ply_lower"
-      value="<%= category.ply_lower || ""  %>"
-      required
-    />
+    <input name="ply_lower" type="number" id="ply_lower" value="<%= category.ply_lower || ""  %>" required />
 
     <label for="ply_upper" aria-label="Upper bound">to</label>
-    <input
-      name="ply_upper"
-      type="number"
-      id="ply_upper"
-      value="<%= category.ply_upper || ""  %>"
-    />
+    <input name="ply_upper" type="number" id="ply_upper" value="<%= category.ply_upper || ""  %>" />
   </fieldset>
 
   <fieldset>
     <legend for="needle_size">Needle size (mm)</legend>
 
     <label for="needle_lower" aria-label="Lower bound"></label>
-    <input
-      name="needle_lower"
-      type="number"
-      step="0.25"
-      id="needle_lower"
-      value="<%= category.needle_lower || ""  %>"
-    />
+    <input name="needle_lower" type="number" step="0.25" id="needle_lower" value="<%= category.needle_lower || ""  %>" />
 
     <label for="needle_upper" aria-label="Upper bound">to</label>
-    <input
-      name="needle_upper"
-      type="number"
-      step="0.25"
-      id="needle_upper"
-      value="<%= category.needle_upper || ""  %>"
-    />
+    <input name="needle_upper" type="number" step="0.25" id="needle_upper" value="<%= category.needle_upper || ""  %>" />
   </fieldset>
 
   <fieldset>
     <legend for="hook_size">Hook size (mm)</legend>
 
     <label for="hook_lower" aria-label="Lower bound"></label>
-    <input
-      name="hook_lower"
-      type="number"
-      step="0.25"
-      id="hook_lower"
-      value="<%= category.hook_lower || ""  %>"
-    />
+    <input name="hook_lower" type="number" step="0.25" id="hook_lower" value="<%= category.hook_lower || ""  %>" />
 
     <label for="hook_upper" aria-label="Upper bound">to</label>
-    <input
-      name="hook_upper"
-      type="number"
-      step="0.25"
-      id="hook_upper"
-      value="<%= category.hook_upper || ""  %>"
-    />
+    <input name="hook_upper" type="number" step="0.25" id="hook_upper" value="<%= category.hook_upper || ""  %>" />
   </fieldset>
 
   <fieldset>
     <legend for="gauge">Gauge (10x10cm)</legend>
 
     <label for="gauge_lower" aria-label="Lower bound"></label>
-    <input
-      name="gauge_lower"
-      type="number"
-      id="gauge_lower"
-      value="<%= category.gauge_lower || ""  %>"
-    />
+    <input name="gauge_lower" type="number" id="gauge_lower" value="<%= category.gauge_lower || ""  %>" />
 
     <label for="gauge_upper" aria-label="Upper bound">to</label>
-    <input
-      name="gauge_upper"
-      type="number"
-      id="gauge_upper"
-      value="<%= category.gauge_upper || ""  %>"
-    />
+    <input name="gauge_upper" type="number" id="gauge_upper" value="<%= category.gauge_upper || ""  %>" />
   </fieldset>
 
   <button type="submit"><%= submitLabel %></button>
