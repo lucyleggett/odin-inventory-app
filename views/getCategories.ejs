@@ -17,6 +17,14 @@
   <%- include("partials/navbar.ejs") %>
   <div class="categories container">
     <%- include("partials/searchBar.ejs", { action }) %>
+
+    <% if (locals.message) { %>
+    <div class="errors">
+      <h2>Oops!</h2>
+      <p> <%= message %> </p>
+    </div>
+    <% } %>
+
     <% if (categories.length === 0) { %>
     <p>No results found</p>
     <% if (locals.q) { %>
@@ -60,12 +68,12 @@
             <td><%= gaugeRange !== "N/A" ? `${gaugeRange} stitches` : "-" %></td>
             <td>
               <form method="GET" action="/categories/<%= c.id %>/edit">
-                <button type="submit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button type="submit" class="edit" aria-label="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
               </form>
             </td>
             <td>
               <form method="POST" action="/categories/<%= c.id %>/delete">
-                <button type="submit" aria-label="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                <button type="submit" class="delete" aria-label="Delete"><i class="fa-regular fa-trash-can"></i></button>
               </form>
             </td>
           </tr>

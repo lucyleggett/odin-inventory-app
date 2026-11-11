@@ -4,8 +4,15 @@ const { validateId, errMsgs } = require("../utils/validationUtils");
 
 exports.getCategories = async (req, res) => {
   const q = (req.query.q || "").trim();
-  const categories = q ? await db.searchCategories(q) : await db.getAllCategories();
-  res.render("getCategories", { categories, q, action: "/categories" });
+  const categories = q
+    ? await db.searchCategories(q)
+    : await db.getAllCategories();
+  res.render("getCategories", {
+    categories,
+    q,
+    message: "",
+    action: "/categories",
+  });
 };
 
 exports.getEditCategory = async (req, res) => {
@@ -210,14 +217,22 @@ const DELETE_ERRORS = {
   },
 };
 
+async function renderList(res, status, message) {
+  const categories = await db.getAllCategories();
+  res.status(status).render("getCategories", {
+    categories,
+    q: "",
+    message,
+    action: "/categories",
+  });
+}
+
 exports.deleteCategory = [
   validateId,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("error", {
-        message: errors.array()[0].msg,
-      });
+      return renderList(res, 400, errors.array()[0].msg);
     }
 
     const { id } = matchedData(req);
@@ -225,23 +240,13 @@ exports.deleteCategory = [
     try {
       const rowCount = await db.deleteCategory(id);
       if (rowCount === 0) {
-        return res.status(404).render("error", {
-          message: "Category not found. It may have already been deleted.",
-        });
+        return renderList(res, 404, "Category not found. It may have already been deleted.");
       }
       res.redirect("/categories");
     } catch (err) {
       const known = DELETE_ERRORS[err.code];
-      if (known) {
-        return res.status(known.status).render("error", {
-          message: known.message,
-        });
-      }
-      console.error(err);
-      res.status(500).render("error", {
-        message:
-          "Something went wrong while deleting the category. Please try again.",
-      });
+      if (known) return renderList(res, known.status, known.message);
+      throw err;
     }
   },
 ];

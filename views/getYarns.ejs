@@ -17,10 +17,18 @@
   <%- include("partials/navbar.ejs") %>
   <div class="yarns container">
     <%- include("partials/searchBar.ejs", { action }) %>
+
+    <% if (locals.message) { %>
+    <div class="errors">
+      <h2>Oops!</h2>
+      <p> <%= message %> </p>
+    </div>
+    <% } %>
+
     <% if (yarns.length === 0) { %>
     <p>No results found</p>
     <% if (locals.q) { %>
-    <a class="show-all button" href="/categories">Show all yarns</a>
+    <a class="show-all" href="/yarns">Show all yarns</a>
     <% } %>
     <% } else { %>
     <div class="table-container">

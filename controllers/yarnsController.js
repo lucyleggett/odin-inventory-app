@@ -58,7 +58,7 @@ const validateYarn = [
 exports.getYarns = async (req, res) => {
   const q = (req.query.q || "").trim();
   const yarns = q ? await db.searchYarns(q) : await db.getAllYarns();
-  res.render("getYarns", { yarns, q, action: "/yarns" });
+  res.render("getYarns", { yarns, q, message: "", action: "/yarns" });
 };
 
 exports.getAddYarn = async (req, res) => {
@@ -166,6 +166,12 @@ exports.editYarn = [
 
 exports.deleteYarn = async (req, res) => {
   const rowCount = await db.deleteYarn(req.params.id);
-  if (rowCount === 0) return res.status(404).send("Yarn not found");
-  res.redirect("/yarns");
+  const yarns = await db.getYarns();
+  if (rowCount === 0)
+    return res.status(404).render("getYarns", {
+      yarns,
+      q: "",
+      message: "Something went wrong. Please try again.",
+      action: "/yarns",
+    });
 };
