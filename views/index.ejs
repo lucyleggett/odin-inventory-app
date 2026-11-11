@@ -1,28 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles.css" />
-    <script
-      src="https://kit.fontawesome.com/53d5910f58.js"
-      crossorigin="anonymous"
-    ></script>
-    <title>yarn.store</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <%- include("partials/navbar.ejs") %>
-    <div class="container"></div>
-    <%- include("partials/footer.ejs") %>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="https://kit.fontawesome.com/53d5910f58.js" crossorigin="anonymous"></script>
+  <title>yarn.store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <% const yarnCount = yarns.reduce((sum, yarn) => sum + yarn.quantity, 0) %>
+  <% const totalMeterage = yarns.reduce((sum, yarn) => sum + (yarn.length_meters * yarn.quantity), 0); 
+  const yarnMeterage = totalMeterage >= 1000
+    ? `${Number((totalMeterage / 1000).toFixed(2))}km` 
+    : `${totalMeterage}g`;
+  %>
+  <% const brandsCount = new Set(yarns.map(yarn => yarn.brand)).size %>
+  <% 
+  const totalGrams = yarns.reduce((sum, yarn) => sum + (yarn.net_weight * yarn.quantity), 0);
+  const yarnWeight = totalGrams >= 1000 
+    ? `${Number((totalGrams / 1000).toFixed(2))}kg` 
+    : `${totalGrams}g`;
+  %>
+
+  <%- include("partials/navbar.ejs") %>
+  <div class="container">
+    <div class="dashboard">
+      <h2>Your stash</h2>
+      <div class="stats">
+        <i class="fa-solid fa-layer-group"></i>
+        <p><%= categories.length %> <%= categories.length > 1 ? "categories" : "category"%></p>
+        <img src="/images/wool-icon.svg" alt="Ball of yarn">
+        <p><%= yarnCount %> <%= yarnCount > 1 ? "balls" : "ball"%></p>
+        <i class="fa-solid fa-ruler"></i>
+        <p><%= yarnMeterage %></p>
+        <i class="fa-solid fa-tags"></i>
+        <p><%= brandsCount %> <%= brandsCount > 1 ? "brands" : "brand"%></p>
+        <i class="fa-solid fa-weight-hanging"></i>
+        <p><%= yarnWeight %></p>
+      </div>
+    </div>
+  </div>
+  <%- include("partials/footer.ejs") %>
+</body>
+
 </html>
