@@ -46,7 +46,17 @@ CREATE TABLE IF NOT EXISTS yarns (
 INSERT INTO yarns (weight_id, name, brand, color, shade_code, dye_lot, quantity, materials, net_weight, length_meters, rec_needle, rec_hook)
 VALUES
 ((SELECT id FROM categories WHERE weight = 'double knit'), 'Special DK', 'Stylecraft', 'Cornish Blue', 1841, NULL, 8, ARRAY['acrylic'], 100, 295, 4, 4),
-((SELECT id FROM categories WHERE weight = 'double knit'), 'Special DK', 'Stylecraft', 'Powder Pink', 1843, NULL, 8, ARRAY['acrylic'], 100, 295, 4, 4)
+((SELECT id FROM categories WHERE weight = 'double knit'), 'Special DK', 'Stylecraft', 'Powder Pink', 1843, NULL, 8, ARRAY['acrylic'], 100, 295, 4, 4),
+((SELECT id FROM categories WHERE weight = 'double knit'), 'Karisma', 'Drops', 'Light Grey', 3, NULL, 6, ARRAY['wool'], 50, 100, 4, 3.5),
+((SELECT id FROM categories WHERE weight = 'aran'), 'Nepal', 'Drops', 'Forest Green', 7240, 1203, 4, ARRAY['wool', 'alpaca'], 50, 75, 4.5, 4.5),
+((SELECT id FROM categories WHERE weight = 'fingering'), 'Alpaca', 'Drops', 'Dark Brown', 5, NULL, 5, ARRAY['alpaca'], 50, 167, 3, 2.5),
+((SELECT id FROM categories WHERE weight = 'double knit'), 'Felted Tweed DK', 'Rowan', 'Seaweed', 161, 5821, 3, ARRAY['wool', 'alpaca', 'viscose'], 50, 175, 3.75, 4),
+((SELECT id FROM categories WHERE weight = 'chunky'), 'Big Value Chunky', 'King Cole', 'Mustard', 4172, NULL, 10, ARRAY['acrylic'], 100, 152, 6.5, 6),
+((SELECT id FROM categories WHERE weight = 'chunky'), 'Wool-Ease Thick & Quick', 'Lion Brand', 'Fisherman', 99, NULL, 2, ARRAY['acrylic', 'wool'], 170, 77, 12.75, 9),
+((SELECT id FROM categories WHERE weight = 'aran'), '220', 'Cascade', 'Heather Charcoal', 8400, 77231, 3, ARRAY['wool'], 100, 200, 4.5, 5.5),
+((SELECT id FROM categories WHERE weight = 'double knit'), 'Cotton DK', 'Paintbox Yarns', 'Blush Pink', 418, NULL, 7, ARRAY['cotton'], 50, 125, 4, 3.5),
+((SELECT id FROM categories WHERE weight = 'fingering'), 'Catona', 'Scheepjes', 'Sunflower', 208, NULL, 12, ARRAY['cotton'], 50, 125, 2.5, 2.5),
+((SELECT id FROM categories WHERE weight = 'aran'), 'Special Aran', 'Stylecraft', 'Lipstick', 1246, NULL, 5, ARRAY['acrylic'], 100, 196, 5, 5.5)
 ON CONFLICT DO NOTHING;
 `;
 
