@@ -131,7 +131,16 @@ exports.addYarn = [
 
 exports.getEditYarn = async (req, res) => {
   const yarn = await db.getYarn(req.params.id);
-  if (!yarn) return res.status(404).send("Yarn not found");
+  if (!yarn) {
+    const yarns = await db.getAllYarns();
+    return res.status(404).render("getYarns", {
+      yarns,
+      q: "",
+      messageTitle: "Oops!",
+      message: "Yarn not found.",
+      action: "/yarns",
+    });
+  }
   const categories = await db.getAllCategories();
   res.render("addEditYarn", {
     title: "Edit yarn",
@@ -147,8 +156,6 @@ exports.editYarn = [
   validateId,
   ...validateYarn,
   async (req, res) => {
-    const { id, ...data } = matchedData(req);
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const categories = await db.getAllCategories();
@@ -157,16 +164,25 @@ exports.editYarn = [
       return res.status(400).render("addEditYarn", {
         title: "Edit yarn",
         errors: errors.array(),
-        yarn: { ...fields, id },
+        yarn: { ...fields, id: req.params.id },
         categories,
         action: `/yarns/${req.params.id}/edit`,
         submitLabel: "Save changes",
       });
     }
 
+    const { id, ...data } = matchedData(req);
     const rowCount = await db.editYarn(id, data);
+
     if (rowCount === 0) {
-      return res.status(404).send("Yarn not found.");
+      const yarns = await db.getAllYarns();
+      return res.status(404).render("getYarns", {
+        yarns,
+        q: "",
+        messageTitle: "Oops!",
+        message: "Yarn not found.",
+        action: "/yarns",
+      });
     }
     res.redirect("/yarns");
   },
