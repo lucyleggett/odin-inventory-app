@@ -30,29 +30,29 @@ const validateYarn = [
   body("quantity")
     .trim()
     .optional({ values: "falsy" })
-    .isInt()
-    .withMessage(`Quantity ${errMsgs.integerErr}`),
+    .isInt({ max: 999 })
+    .withMessage(`Quantity ${errMsgs.integerErr} below 999.`),
   body("materials").trim().optional({ values: "falsy" }),
   body("net_weight")
     .trim()
     .optional({ values: "falsy" })
-    .isInt()
-    .withMessage(`Net weight ${errMsgs.integerErr}`),
+    .isInt({ max: 999 })
+    .withMessage(`Net weight ${errMsgs.integerErr} below 1000.`),
   body("length_meters")
     .trim()
     .optional({ values: "falsy" })
-    .isInt()
-    .withMessage(`Length ${errMsgs.integerErr}`),
+    .isInt({ max: 5000 })
+    .withMessage(`Length ${errMsgs.integerErr} below 5000.`),
   body("rec_needle")
     .trim()
     .optional({ values: "falsy" })
-    .isDecimal()
-    .withMessage(`Needle size ${errMsgs.decimalErr}`),
+    .isFloat({ max: 25.0 })
+    .withMessage(`Needle size ${errMsgs.decimalErr} and below 25.00.`),
   body("rec_hook")
     .trim()
     .optional({ values: "falsy" })
-    .isDecimal()
-    .withMessage(`Hook size ${errMsgs.decimalErr}`),
+    .isFloat({ max: 25.0 })
+    .withMessage(`Hook size ${errMsgs.decimalErr} and below 25.00.`),
 ];
 
 exports.getYarns = async (req, res) => {
@@ -157,7 +157,7 @@ exports.editYarn = [
       return res.status(400).render("addEditYarn", {
         title: "Edit yarn",
         errors: errors.array(),
-        yarn: { fields, id },
+        yarn: { ...fields, id },
         categories,
         action: `/yarns/${req.params.id}/edit`,
         submitLabel: "Save changes",

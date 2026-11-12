@@ -457,11 +457,13 @@ label[for$="_upper"] {
   transform: translate(-1px, 1px);
 }
 
-.messages {
+.messages,
+.errors {
   padding: 1em 0.5em;
 }
 
-.messages ul {
+.messages ul,
+.errors ul {
   padding-left: 20px;
 }
 

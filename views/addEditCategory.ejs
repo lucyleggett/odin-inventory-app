@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/styles.css">
-  <script src="https://kit.fontawesome.com/53d5910f58.js" crossorigin="anonymous"></script>   
+  <script src="https://kit.fontawesome.com/53d5910f58.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
   <title><%- title %></title>
 </head>
+
 <body>
   <%- include("partials/navbar.ejs") %>
   <div class="container">
 
     <% const errs = locals.errors || []; %>
     <% if (errs.length) { %>
-      <div class="errors">
-        <h2>Oops!</h2>
-        <ul>
-          <% errs.forEach((e) => { %>
-            <li><%= e.msg %></li>
-          <% }); %>
-        </ul>
-      </div>
+    <div class="errors">
+      <h2>Oops!</h2>
+      <ul>
+        <% errs.forEach((e) => { %>
+        <li><%= e.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
     <% } %>
 
     <%- include("partials/categoriesForm.ejs", { category }) %>

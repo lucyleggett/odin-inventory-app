@@ -116,7 +116,7 @@ exports.editCategory = [
       return res.status(400).render("addEditCategory", {
         title: "Edit category",
         errors: errors.array(),
-        category: { fields, id: req.params.id },
+        category: { ...fields, id: req.params.id },
         action: `/categories/${req.params.id}/edit`,
         submitLabel: "Save changes",
       });
