@@ -58,7 +58,13 @@ const validateYarn = [
 exports.getYarns = async (req, res) => {
   const q = (req.query.q || "").trim();
   const yarns = q ? await db.searchYarns(q) : await db.getAllYarns();
-  res.render("getYarns", { yarns, q, message: "", action: "/yarns" });
+  res.render("getYarns", {
+    yarns,
+    q,
+    messageTitle: "",
+    message: "",
+    action: "/yarns",
+  });
 };
 
 exports.getAddYarn = async (req, res) => {
@@ -146,10 +152,12 @@ exports.editYarn = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const categories = await db.getAllCategories();
+      const { password, ...fields } = req.body;
+
       return res.status(400).render("addEditYarn", {
         title: "Edit yarn",
         errors: errors.array(),
-        yarn: { ...req.body, id },
+        yarn: { fields, id },
         categories,
         action: `/yarns/${req.params.id}/edit`,
         submitLabel: "Save changes",
@@ -166,12 +174,21 @@ exports.editYarn = [
 
 exports.deleteYarn = async (req, res) => {
   const rowCount = await db.deleteYarn(req.params.id);
-  const yarns = await db.getYarns();
-  if (rowCount === 0)
+  const yarns = await db.getAllYarns();
+  if (rowCount === 0) {
     return res.status(404).render("getYarns", {
       yarns,
       q: "",
+      messageTitle: "Oops!",
       message: "Something went wrong. Please try again.",
       action: "/yarns",
     });
+  }
+  res.render("getYarns", {
+    yarns,
+    q: "",
+    messageTitle: "Yay!",
+    message: "Yarn deleted successfully.",
+    action: "/yarns",
+  });
 };

@@ -178,7 +178,7 @@ li.categories a:hover {
   background-color: var(--clr-tertiary);
   color: var(--clr-text-light);
   border-radius: 20px;
-  padding: 2em;
+  padding: 1em 2em 2em 2em;
   box-shadow: var(--box-shadow);
 }
 
@@ -208,7 +208,7 @@ li.categories a:hover {
 }
 
 .stats img {
-  width: 20px;
+  width: 24px;
 }
 
 .table-container {
@@ -457,11 +457,11 @@ label[for$="_upper"] {
   transform: translate(-1px, 1px);
 }
 
-.errors {
+.messages {
   padding: 1em 0.5em;
 }
 
-.errors ul {
+.messages ul {
   padding-left: 20px;
 }
 

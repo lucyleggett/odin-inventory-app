@@ -10,6 +10,7 @@ exports.getCategories = async (req, res) => {
   res.render("getCategories", {
     categories,
     q,
+    messageTitle: "",
     message: "",
     action: "/categories",
   });
@@ -111,10 +112,11 @@ exports.editCategory = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      const { password, ...fields } = req.body;
       return res.status(400).render("addEditCategory", {
         title: "Edit category",
         errors: errors.array(),
-        category: { ...req.body, id: req.params.id },
+        category: { fields, id: req.params.id },
         action: `/categories/${req.params.id}/edit`,
         submitLabel: "Save changes",
       });
@@ -129,11 +131,16 @@ exports.editCategory = [
     if (rowCount === 0) {
       return res.status(404).send("Category not found.");
     }
-    res.redirect("/categories");
+    const categories = await db.getAllCategories();
+    res.render("/categories", {
+      categories,
+      q: "",
+      messageTitle: "Yay!",
+      message: "Category updated successfully.",
+      action: "/categories",
+    });
   },
 ];
-
-exports.searchCategories = async (req, res) => {};
 
 exports.getAddCategory = async (req, res) => {
   res.render("addEditCategory", {
@@ -222,6 +229,7 @@ async function renderList(res, status, message) {
   res.status(status).render("getCategories", {
     categories,
     q: "",
+    messageTitle: "Oops!",
     message,
     action: "/categories",
   });
@@ -240,9 +248,20 @@ exports.deleteCategory = [
     try {
       const rowCount = await db.deleteCategory(id);
       if (rowCount === 0) {
-        return renderList(res, 404, "Category not found. It may have already been deleted.");
+        return renderList(
+          res,
+          404,
+          "Category not found. It may have already been deleted.",
+        );
       }
-      res.redirect("/categories");
+      const categories = await db.getAllCategories();
+      res.render("getCategories", {
+        categories,
+        q: "",
+        messageTitle: "Yay!",
+        message: "Category deleted successfully.",
+        action: "/categories",
+      });
     } catch (err) {
       const known = DELETE_ERRORS[err.code];
       if (known) return renderList(res, known.status, known.message);

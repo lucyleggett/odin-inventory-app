@@ -25,6 +25,9 @@ app.locals.formatRange = formatRange;
 app.locals.toSentenceCase = toSentenceCase;
 app.locals.toTitleCase = toTitleCase;
 
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+
 const indexRouter = require("./routes/indexRouter");
 const categoriesRouter = require("./routes/categoriesRouter");
 const yarnsRouter = require("./routes/yarnsRouter");
@@ -32,8 +35,6 @@ const yarnsRouter = require("./routes/yarnsRouter");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 app.use("/categories", categoriesRouter);
 app.use("/yarns", yarnsRouter);
@@ -42,6 +43,10 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(err.statusCode || 500).send(err.message);
 });
+
+app.post("/verify-password", confirmPassword, (req, res) =>
+  res.sendStatus(204),
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
